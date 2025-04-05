@@ -23,7 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      data-locator-target="vscode"
+      data-locator-mouse-modifiers=""
+    >
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

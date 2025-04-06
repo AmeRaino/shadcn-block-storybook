@@ -10,11 +10,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ChangeEvent, ComponentProps } from "react";
-import { Textarea } from "../ui/textarea";
-import { cn } from "@/lib/utils";
+import { ComponentProps } from "react";
+import { Slider } from "@/components/ui/slider";
 
-type TFormTextArea<
+type TFormSlider<
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = {
@@ -22,21 +21,21 @@ type TFormTextArea<
   control: Control<TFieldValues>;
   label?: string | React.ReactNode;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
-  onChangeCallBack?: (e: ChangeEvent<HTMLTextAreaElement>) => void | string;
-} & Omit<ComponentProps<typeof Textarea>, "onChange" | "value">;
+  onChangeCallBack?: (e: number[]) => void;
+} & Omit<ComponentProps<typeof Slider>, "onChange" | "value">;
 
-export const FormTextArea = <
+export const FormSlider = <
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  className,
   formLabelProps,
   name,
   control,
   label,
+  step = 1,
   onChangeCallBack,
   ...props
-}: TFormTextArea<TFieldValues, TFieldName>) => {
+}: TFormSlider<TFieldValues, TFieldName>) => {
   return (
     <FormField
       control={control}
@@ -45,21 +44,13 @@ export const FormTextArea = <
         <FormItem>
           {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
           <FormControl>
-            <Textarea
-              className={cn(
-                "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aria-invalid:text-destructive aria-invalid:bg-[#FEF2F2]",
-                className
-              )}
+            <Slider
               {...fieldProps}
               {...props}
-              onChange={(e) => {
-                if (typeof onChangeCallBack !== "function") {
-                  onChange(e);
-                  return;
-                }
-
-                const formatValue = onChangeCallBack?.(e);
-                onChange(typeof formatValue === "string" ? formatValue : e);
+              step={step}
+              onValueChange={(e) => {
+                onChangeCallBack?.(e);
+                onChange(e);
               }}
             />
           </FormControl>

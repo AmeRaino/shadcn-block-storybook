@@ -61,11 +61,12 @@ export const FormDatePicker = <
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full pl-3 text-left font-normal",
+                    "w-full pl-3 text-left font-normal justify-start",
+                    "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aria-invalid:bg-[#FEF2F2]",
                     !value && "text-muted-foreground"
                   )}
                 >
-                  <MyIconfy icon={commonIcon.calendar} />
+                  <MyIconfy icon={commonIcon.calendar} size="sm" />
                   {value ? (
                     format(value, "dd/MM/yyyy")
                   ) : (

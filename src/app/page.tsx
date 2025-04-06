@@ -4,38 +4,43 @@ import { MyIconfy } from "@/components/base-component/my-icon";
 import {
   FormCheckbox,
   FormCombobox,
+  FormDateRangePicker,
   FormInput,
+  FormMultiCombobox,
   FormSelect,
   FormSwitch,
   FormTextArea,
 } from "@/components/form";
+import { FormSlider } from "@/components/form/form-slider";
 
 import { Form } from "@/components/ui/form";
 import { commonIcon } from "@/shared/common-icon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { z } from "zod";
-type TForm = {
-  name: string;
-  gender: string;
-  job: string;
-  isConfirm: boolean;
-  trial: boolean;
-  description: string;
-};
 
 const configGradeFormSchema = z.object({
-  name: z.string().min(1),
-  isConfirm: z.boolean().refine((data) => data, {
+  input: z.string().min(1),
+  checkbox: z.boolean().refine((data) => data, {
     message: "You must confirm to continue",
   }),
-  trial: z.boolean().refine((data) => data, {
+  switch: z.boolean().refine((data) => data, {
     message: "You must confirm to continue",
   }),
-  gender: z.string().min(1),
-  job: z.string().min(1),
-  description: z.string().min(1),
+  select: z.string().min(1),
+  combobox: z.string().min(1),
+  multiCombobox: z.set(z.string()),
+  textarea: z.string().min(1),
+  fromDate: z.date(),
+  toDate: z.date(),
+  slider: z.coerce.number().min(1),
 });
+
+type TForm = z.infer<typeof configGradeFormSchema>;
+type TApi = { multiCombobox: string } & Omit<
+  z.infer<typeof configGradeFormSchema>,
+  "multiCombobox"
+>;
 
 export default function Home() {
   const form = useForm<TForm>({
@@ -43,7 +48,12 @@ export default function Home() {
   });
 
   function onSubmit(payload: TForm) {
-    console.log("zz ~ onSubmit ~ payload:", payload);
+    const apiPayload: TApi = {
+      ...payload,
+      multiCombobox: Array.from(payload.multiCombobox).join(","),
+    };
+
+    console.log("zz ~ onSubmit ~ apiPayload:", apiPayload);
   }
 
   return (
@@ -52,17 +62,57 @@ export default function Home() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4">
             <FormInput
-              label="Name"
+              label="Input"
               control={form.control}
-              name="name"
-              placeholder="Enter name"
+              name="input"
+              placeholder="Enter input"
+            />
+
+            <FormMultiCombobox
+              truncate={2}
+              label="Multi Combobox"
+              name="multiCombobox"
+              control={form.control}
+              placeholder="Select multi combobox"
+              select={{ label: "label", value: "value" }}
+              fieldFilter={["code", "label"]}
+              options={[
+                {
+                  code: "DEV",
+                  label: "DeveloperDeveloperDeveloper ",
+                  value: "developer",
+                },
+                {
+                  code: "DES",
+                  label: "Designer",
+                  value: "designer",
+                },
+                {
+                  code: "QA",
+                  label: "QA",
+                  value: "qa",
+                },
+              ]}
+              renderLabel={(option) => (
+                <div className="flex items-center gap-2">
+                  <MyIconfy icon="lucide:sparkles" size="sm" />
+                  <span>{option.code}</span> - <span>{option.label}</span>
+                </div>
+              )}
+            />
+
+            <FormDateRangePicker
+              label="Date"
+              control={form.control}
+              names={["fromDate", "toDate"]}
+              placeholder="Select date"
             />
 
             <FormSelect
-              label="Select gender"
-              placeholder="Select gender"
+              label="Select"
+              placeholder="Select"
               control={form.control}
-              name="gender"
+              name="select"
               select={{ label: "label", value: "value" }}
               options={[
                 {
@@ -77,10 +127,10 @@ export default function Home() {
             />
 
             <FormCombobox
-              label="Select job"
-              placeholder="Select job"
+              label="Combobox"
+              placeholder="Select"
               control={form.control}
-              name="job"
+              name="combobox"
               select={{ label: "label", value: "value" }}
               fieldFilter={["code", "label"]}
               options={[
@@ -109,24 +159,26 @@ export default function Home() {
             />
 
             <FormTextArea
-              label="Description"
+              label="Textarea"
               control={form.control}
-              name="description"
+              name="textarea"
               placeholder="Enter description"
             />
+
+            <FormSlider label="Slider" control={form.control} name="slider" />
 
             <FormCheckbox
               containerProps={{ className: "inline-flex items-center gap-2" }}
               control={form.control}
-              name="isConfirm"
-              description={<span>confirm to continue</span>}
+              name="checkbox"
+              description={<span>confirm checkbox to continue</span>}
             />
 
             <FormSwitch
               containerProps={{ className: "inline-flex items-center gap-2" }}
               control={form.control}
-              name="trial"
-              description={<span>activate trial</span>}
+              name="switch"
+              description={<span>activate switch to continue</span>}
             />
           </div>
 

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/popover";
 import useSet from "@/hook/useSet";
 import { cn } from "@/lib/utils";
-import { commonIcon } from "@/lib/common-icon";
+import { commonIcon } from "../common-icon";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
 import { ComponentProps, useEffect, useMemo } from "react";

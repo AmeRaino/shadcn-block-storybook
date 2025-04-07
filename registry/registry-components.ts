@@ -8,14 +8,14 @@ export const ui: Registry = [
     files: [
       "block/base-component/my-button.tsx",
       "block/base-component/my-icon.tsx",
-      "lib/common-icon.tsx",
+      "block/common-icon.tsx",
     ],
   },
   {
     name: "my-icon",
     type: "registry:block",
     dependencies: ["iconify-icon"],
-    files: ["block/base-component/my-icon.tsx", "lib/common-icon.tsx"],
+    files: ["block/base-component/my-icon.tsx", "block/common-icon.tsx"],
   },
   {
     name: "my-input",
@@ -36,7 +36,7 @@ export const ui: Registry = [
     files: [
       "block/base-component/my-combobox.tsx",
       "block/base-component/my-icon.tsx",
-      "lib/common-icon.tsx",
+      "block/common-icon.tsx",
     ],
   },
   {
@@ -59,7 +59,7 @@ export const ui: Registry = [
     files: [
       "block/base-component/my-virtual-combobox-async.tsx",
       "block/base-component/my-icon.tsx",
-      "lib/common-icon.tsx",
+      "block/common-icon.tsx",
       "hook/useBoolean.ts",
       "hook/useSet.ts",
     ],
@@ -90,7 +90,7 @@ export const ui: Registry = [
       "block/form/form-combobox.tsx",
       "block/base-component/my-combobox.tsx",
       "block/base-component/my-icon.tsx",
-      "lib/common-icon.tsx",
+      "block/common-icon.tsx",
     ],
   },
   {
@@ -100,7 +100,7 @@ export const ui: Registry = [
     files: [
       "block/form/form-datepicker.tsx",
       "block/base-component/my-icon.tsx",
-      "lib/common-icon.tsx",
+      "block/common-icon.tsx",
     ],
   },
   {
@@ -110,7 +110,7 @@ export const ui: Registry = [
     files: [
       "block/form/form-date-range-picker.tsx",
       "block/base-component/my-icon.tsx",
-      "lib/common-icon.tsx",
+      "block/common-icon.tsx",
     ],
   },
   {
@@ -140,7 +140,7 @@ export const ui: Registry = [
       "block/form/form-virtual-combobox-async.tsx",
       "block/base-component/my-virtual-combobox-async.tsx",
       "block/base-component/my-icon.tsx",
-      "lib/common-icon.tsx",
+      "block/common-icon.tsx",
       "hook/useBoolean.ts",
       "hook/useSet.ts",
     ],

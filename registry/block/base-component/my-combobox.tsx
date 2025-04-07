@@ -12,9 +12,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import useSet from "@/hooks/useSet";
+import useSet from "@/hook/useSet";
 import { cn } from "@/lib/utils";
-import { commonIcon } from "@/shared/common-icon";
+import { commonIcon } from "@/lib/common-icon";
 import * as React from "react";
 import { ComponentProps, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";

@@ -15,8 +15,8 @@ import { FormCombobox } from "../../registry/block/form/form-combobox";
 import { FormSlider } from "../../registry/block/form/form-slider";
 
 import { Form } from "@/components/ui/form";
-import { useCatalogueProduct } from "@/hooks/catalogue/useCatalogueProduct";
-import { commonIcon } from "../../registry/shared/common-icon";
+import { useCatalogueProduct } from "@/hook/catalogue/useCatalogueProduct";
+import { commonIcon } from "../../registry/lib/common-icon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { z } from "zod";

@@ -5,7 +5,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 import { cn } from "@/lib/utils";
 import { MyIconfy } from "../../../registry/block/base-component/my-icon";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 
 function Dialog({
   ...props

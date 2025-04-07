@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
 import { MyButton } from "../../../registry/block/base-component/my-button";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 
 /**
  * `MyButton` is a versatile button component that supports various styles, sizes, and effects.

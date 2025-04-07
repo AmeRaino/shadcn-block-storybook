@@ -5,7 +5,7 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 
 import { cn } from "@/lib/utils";
 import { MyIconfy } from "../../../registry/block/base-component/my-icon";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 
 function Checkbox({
   className,

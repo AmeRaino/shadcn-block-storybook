@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { MyIconfy } from "../../../registry/block/base-component/my-icon";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 
 /**
  * `MyIconfy` is a versatile icon component that wraps around the Iconify library.

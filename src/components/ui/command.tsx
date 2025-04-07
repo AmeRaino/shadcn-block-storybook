@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 import { MyIconfy } from "../../../registry/block/base-component/my-icon";
 
 function Command({

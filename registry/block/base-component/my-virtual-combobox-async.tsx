@@ -12,16 +12,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import useSet from "@/hooks/useSet";
+import useSet from "@/hook/useSet";
 import { cn } from "@/lib/utils";
-import { commonIcon } from "@/shared/common-icon";
+import { commonIcon } from "@/lib/common-icon";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
 import { ComponentProps, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { MyIconfy } from "./my-icon";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useBoolean } from "@/hooks/useBoolean";
+import { useBoolean } from "@/hook/useBoolean";
 
 type TInfiniteQueryProps = {
   query: Omit<ReturnType<typeof useInfiniteQuery>, "data">;

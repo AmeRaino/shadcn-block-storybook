@@ -22,7 +22,7 @@ import {
 import { DayPicker } from "react-day-picker";
 import { ComponentProps } from "react";
 import { MyIconfy } from "../base-component/my-icon";
-import { commonIcon } from "@/shared/common-icon";
+import { commonIcon } from "@/lib/common-icon";
 
 type TFormDatePicker<
   TFieldValues extends FieldValues = FieldValues,

@@ -7,7 +7,7 @@ import React from "react";
 
 import { FormSelect } from "../../../registry/block/form/form-select";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 import { MyButton } from "../../../registry/block/base-component/my-button";
 import { MyIconfy } from "../../../registry/block/base-component/my-icon";
 

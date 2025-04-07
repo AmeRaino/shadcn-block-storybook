@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MyInput } from "./my-input";
-import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
+import { useDebouncedCallback } from "@/hook/use-debounced-callback";
 
 type TProps = {
   debounce?: number;

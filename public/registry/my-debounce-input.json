@@ -7,7 +7,7 @@
   "files": [
     {
       "type": "registry:block",
-      "content": "import React, { useState } from \"react\";\r\nimport { MyInput } from \"./my-input\";\r\nimport { useDebouncedCallback } from \"@/hooks/use-debounced-callback\";\r\n\r\ntype TProps = {\r\n  debounce?: number;\r\n  onChange?: (value: string | number | readonly string[] | undefined) => void;\r\n} & Omit<React.ComponentPropsWithoutRef<typeof MyInput>, \"value\" | \"onChange\">;\r\n\r\nexport const MyDebounceInput = ({\r\n  defaultValue,\r\n  debounce = 500,\r\n  onChange,\r\n  ...props\r\n}: TProps) => {\r\n  const [value, setValue] = useState<\r\n    string | number | readonly string[] | undefined\r\n  >(defaultValue || \"\");\r\n\r\n  const debouncedSetFilterSearch = useDebouncedCallback(\r\n    (value: string | number | readonly string[] | undefined) => {\r\n      onChange?.(value);\r\n    },\r\n    debounce\r\n  );\r\n\r\n  return (\r\n    <MyInput\r\n      value={value}\r\n      onChange={(event) => {\r\n        setValue(event.target.value);\r\n        debouncedSetFilterSearch(event.target.value);\r\n      }}\r\n      {...props}\r\n    />\r\n  );\r\n};\r\n",
+      "content": "import React, { useState } from \"react\";\r\nimport { MyInput } from \"./my-input\";\r\nimport { useDebouncedCallback } from \"@/hook/use-debounced-callback\";\r\n\r\ntype TProps = {\r\n  debounce?: number;\r\n  onChange?: (value: string | number | readonly string[] | undefined) => void;\r\n} & Omit<React.ComponentPropsWithoutRef<typeof MyInput>, \"value\" | \"onChange\">;\r\n\r\nexport const MyDebounceInput = ({\r\n  defaultValue,\r\n  debounce = 500,\r\n  onChange,\r\n  ...props\r\n}: TProps) => {\r\n  const [value, setValue] = useState<\r\n    string | number | readonly string[] | undefined\r\n  >(defaultValue || \"\");\r\n\r\n  const debouncedSetFilterSearch = useDebouncedCallback(\r\n    (value: string | number | readonly string[] | undefined) => {\r\n      onChange?.(value);\r\n    },\r\n    debounce\r\n  );\r\n\r\n  return (\r\n    <MyInput\r\n      value={value}\r\n      onChange={(event) => {\r\n        setValue(event.target.value);\r\n        debouncedSetFilterSearch(event.target.value);\r\n      }}\r\n      {...props}\r\n    />\r\n  );\r\n};\r\n",
       "path": "block/base-component/my-debounce-input.tsx",
       "target": "components/block/base-component/my-debounce-input.tsx"
     },
@@ -18,22 +18,19 @@
       "target": "components/block/base-component/my-input.tsx"
     },
     {
-      "type": "registry:hook",
-      "content": "/**\r\n * @see https://github.com/mantinedev/mantine/blob/master/packages/@mantine/hooks/src/use-debounced-callback/use-debounced-callback.ts\r\n */\r\n\r\nimport * as React from \"react\";\r\n\r\nimport { useCallbackRef } from \"@/hooks/use-callback-ref\";\r\n\r\nexport function useDebouncedCallback<T extends (...args: never[]) => unknown>(\r\n  callback: T,\r\n  delay: number\r\n) {\r\n  const handleCallback = useCallbackRef(callback);\r\n  const debounceTimerRef = React.useRef(0);\r\n  React.useEffect(\r\n    () => () => window.clearTimeout(debounceTimerRef.current),\r\n    []\r\n  );\r\n\r\n  const setValue = React.useCallback(\r\n    (...args: Parameters<T>) => {\r\n      window.clearTimeout(debounceTimerRef.current);\r\n      debounceTimerRef.current = window.setTimeout(\r\n        () => handleCallback(...args),\r\n        delay\r\n      );\r\n    },\r\n    [handleCallback, delay]\r\n  );\r\n\r\n  return setValue;\r\n}\r\n",
-      "path": "hooks/use-debounced-callback.ts",
-      "target": "components/hooks/use-debounced-callback.ts"
+      "content": "/**\r\n * @see https://github.com/mantinedev/mantine/blob/master/packages/@mantine/hooks/src/use-debounced-callback/use-debounced-callback.ts\r\n */\r\n\r\nimport * as React from \"react\";\r\n\r\nimport { useCallbackRef } from \"@/hook/use-callback-ref\";\r\n\r\nexport function useDebouncedCallback<T extends (...args: never[]) => unknown>(\r\n  callback: T,\r\n  delay: number\r\n) {\r\n  const handleCallback = useCallbackRef(callback);\r\n  const debounceTimerRef = React.useRef(0);\r\n  React.useEffect(\r\n    () => () => window.clearTimeout(debounceTimerRef.current),\r\n    []\r\n  );\r\n\r\n  const setValue = React.useCallback(\r\n    (...args: Parameters<T>) => {\r\n      window.clearTimeout(debounceTimerRef.current);\r\n      debounceTimerRef.current = window.setTimeout(\r\n        () => handleCallback(...args),\r\n        delay\r\n      );\r\n    },\r\n    [handleCallback, delay]\r\n  );\r\n\r\n  return setValue;\r\n}\r\n",
+      "path": "hook/use-debounced-callback.ts",
+      "target": "components/hook/use-debounced-callback.ts"
     },
     {
-      "type": "registry:hook",
       "content": "import * as React from \"react\";\r\n\r\n/**\r\n * @see https://github.com/radix-ui/primitives/blob/main/packages/react/use-callback-ref/src/useCallbackRef.tsx\r\n */\r\n\r\n/**\r\n * A custom hook that converts a callback to a ref to avoid triggering re-renders when passed as a\r\n * prop or avoid re-executing effects when passed as a dependency\r\n */\r\nfunction useCallbackRef<T extends (...args: never[]) => unknown>(\r\n  callback: T | undefined\r\n): T {\r\n  const callbackRef = React.useRef(callback);\r\n\r\n  React.useEffect(() => {\r\n    callbackRef.current = callback;\r\n  });\r\n\r\n  // https://github.com/facebook/react/issues/19240\r\n  return React.useMemo(\r\n    () => ((...args) => callbackRef.current?.(...args)) as T,\r\n    []\r\n  );\r\n}\r\n\r\nexport { useCallbackRef };\r\n",
-      "path": "hooks/use-callback-ref.ts",
-      "target": "components/hooks/use-callback-ref.ts"
+      "path": "hook/use-callback-ref.ts",
+      "target": "components/hook/use-callback-ref.ts"
     },
     {
-      "type": "registry:hook",
       "content": "import * as React from \"react\";\r\n\r\nexport function useDebounce<T>(value: T, delay?: number): T {\r\n  const [debouncedValue, setDebouncedValue] = React.useState<T>(value);\r\n\r\n  React.useEffect(() => {\r\n    const timer = setTimeout(() => setDebouncedValue(value), delay ?? 500);\r\n\r\n    return () => {\r\n      clearTimeout(timer);\r\n    };\r\n  }, [value, delay]);\r\n\r\n  return debouncedValue;\r\n}\r\n",
-      "path": "hooks/use-debounce.ts",
-      "target": "components/hooks/use-debounce.ts"
+      "path": "hook/use-debounce.ts",
+      "target": "components/hook/use-debounce.ts"
     }
   ]
 }

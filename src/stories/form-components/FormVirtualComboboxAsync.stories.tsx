@@ -13,11 +13,11 @@ import React from "react";
 import { FormVirtualComboboxAsync } from "../../../registry/block/form/form-virtual-combobox-async";
 import { MyVirtualComboboxAsync } from "../../../registry/block/base-component/my-virtual-combobox-async";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 import { MyButton } from "../../../registry/block/base-component/my-button";
-import useSet from "@/hooks/useSet";
-import { useBoolean } from "@/hooks/useBoolean";
-import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
+import useSet from "@/hook/useSet";
+import { useBoolean } from "@/hook/useBoolean";
+import { useDebouncedCallback } from "@/hook/use-debounced-callback";
 
 // Sample data for the async combobox component
 interface Product {

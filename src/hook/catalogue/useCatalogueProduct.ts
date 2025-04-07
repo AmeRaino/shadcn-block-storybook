@@ -1,5 +1,5 @@
-import { useBoolean } from "@/hooks/useBoolean";
-import useSet from "@/hooks/useSet";
+import { useBoolean } from "@/hook/useBoolean";
+import useSet from "@/hook/useSet";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebouncedCallback } from "../use-debounced-callback";

@@ -1,7 +1,7 @@
 "use client";
 
 import { MyVirtualComboboxAsync } from "../../../registry/block/base-component/my-virtual-combobox-async";
-import { useCatalogueProduct } from "@/hooks/catalogue/useCatalogueProduct";
+import { useCatalogueProduct } from "@/hook/catalogue/useCatalogueProduct";
 
 export default function AsyncMultiSelectPage() {
   const catalogueProduct = useCatalogueProduct();

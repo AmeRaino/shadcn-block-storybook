@@ -13,8 +13,8 @@
     },
     {
       "content": "export const commonIcon = {\r\n  add: \"ic:round-add\",\r\n  edit: \"ic:round-edit\",\r\n  delete: \"ic:round-delete\",\r\n  filter: \"ic:round-filter-list\",\r\n  sort: \"ic:round-sort\",\r\n  close: \"ic:round-close\",\r\n  check: \"lucide:check\",\r\n  save: \"ic:round-save\",\r\n  cancel: \"ic:round-cancel\",\r\n  checkCircle: \"ic:round-check-circle\",\r\n  calendar: \"lucide:calendar\",\r\n  chevronDown: \"lucide:chevron-down\",\r\n  chevronUp: \"lucide:chevron-up\",\r\n  chevronLeft: \"lucide:chevron-left\",\r\n  chevronRight: \"lucide:chevron-right\",\r\n  loader: \"lucide:loader-circle\",\r\n  searchIcon: \"lucide:search\",\r\n  x: \"lucide:x\",\r\n  circle: \"lucide:circle\",\r\n  sparkles: \"lucide:sparkles\",\r\n  circleAlert: \"lucide:circle-alert\",\r\n};\r\n",
-      "path": "shared/common-icon.tsx",
-      "target": "components/shared/common-icon.tsx"
+      "path": "lib/common-icon.tsx",
+      "target": "components/lib/common-icon.tsx"
     }
   ]
 }

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, FieldValues } from "react-hook-form";
-import useSet from "@/hooks/useSet";
+import useSet from "@/hook/useSet";
 import React from "react";
 
 import { FormCombobox } from "../../../registry/block/form/form-combobox";
@@ -12,7 +12,7 @@ import {
   MyComboboxTriggerLabel,
 } from "../../../registry/block/base-component/my-combobox";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 import { MyButton } from "../../../registry/block/base-component/my-button";
 import { MyIconfy } from "../../../registry/block/base-component/my-icon";
 

@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import { FormTextArea } from "../../../registry/block/form/form-textarea";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "../../../registry/shared/common-icon";
+import { commonIcon } from "../../../registry/lib/common-icon";
 import { MyButton } from "../../../registry/block/base-component/my-button";
 
 // Mock control object for story args

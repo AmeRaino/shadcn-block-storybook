@@ -80,13 +80,9 @@ export const FormDatePicker = <
                 mode="single"
                 selected={value}
                 onSelect={(e) => {
-                  if (typeof onChangeCallBack !== "function") {
-                    onChange(e);
-                    return;
-                  }
-
-                  onChangeCallBack(e);
-                  onChange(e);
+                  console.log("zz ~ e:", e);
+                  onChangeCallBack?.(e);
+                  onChange(e ?? null);
                 }}
                 initialFocus
                 {...fieldProps}

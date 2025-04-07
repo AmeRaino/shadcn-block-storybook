@@ -1,24 +1,10 @@
 "use client";
 
-import { NorCombobox } from "@/components/base-component/n-comb";
-import { VirtualizedCombobox } from "@/components/base-component/v-comb";
+import { MyVirtualComboboxAsync } from "@/components/base-component/my-virtual-combobox-async";
 import { useCatalogueProduct } from "@/hooks/catalogue/useCatalogueProduct";
-import useSet from "@/hooks/useSet";
-
-function generateItems() {
-  const items: { label: string; value: number }[] = [];
-  for (let i = 1; i <= 50; i++) {
-    items.push({ value: i, label: `item ${i}` });
-  }
-  return items;
-}
-
-const initialOptions: { label: string; value: number }[] = generateItems();
 
 export default function AsyncMultiSelectPage() {
   const catalogueProduct = useCatalogueProduct();
-
-  const selectedStateNormal = useSet<number>();
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -39,14 +25,7 @@ export default function AsyncMultiSelectPage() {
               Select Products
             </label>
 
-            <NorCombobox
-              options={initialOptions}
-              select={{ value: "value", label: "label" }}
-              selectedState={selectedStateNormal}
-              placeholder="Select items..."
-            />
-
-            <VirtualizedCombobox
+            <MyVirtualComboboxAsync
               select={{ value: "id", label: "title" }}
               placeholder="Select products..."
               {...catalogueProduct}

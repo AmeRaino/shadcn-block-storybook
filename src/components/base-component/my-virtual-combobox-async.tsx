@@ -34,7 +34,9 @@ type TOnChangeCallBackParams<T> = {
   values: ReturnType<typeof useSet<T>>["0"];
 };
 
-type TVirtualizedComboboxProps<
+type TSelectMode = "single" | "multiple";
+
+type TMyVirtualComboboxAsyncProps<
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData
@@ -56,11 +58,12 @@ type TVirtualizedComboboxProps<
   renderLabel?: (option: TData) => string | React.ReactNode;
   onChangeCallBack?: (params: TOnChangeCallBackParams<TData[TValue]>) => void;
   renderTrigger?: (
-    props: TMyVirtualMultiComboboxTriggerProps<TData, TValue, TLabel>
+    props: TMyVirtualComboboxTriggerProps<TData, TValue, TLabel>
   ) => React.ReactNode;
+  mode?: TSelectMode;
 };
 
-export function VirtualizedCombobox<
+export function MyVirtualComboboxAsync<
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData
@@ -85,7 +88,8 @@ export function VirtualizedCombobox<
   renderLabel,
   onChangeCallBack,
   renderTrigger,
-}: TVirtualizedComboboxProps<TData, TValue, TLabel>) {
+  mode = "single",
+}: TMyVirtualComboboxAsyncProps<TData, TValue, TLabel>) {
   const [selectedValues, selectedValuesActions] = selectedState;
 
   const { className: triggerClassName, ...restTriggerProps } =
@@ -101,8 +105,16 @@ export function VirtualizedCombobox<
   };
 
   const onAddValue = (value: TData[TValue]) => {
+    if (mode === "single") {
+      selectedValuesActions.reset();
+    }
+
     onChangeCallBack?.({ eventSelect: true, value, values: selectedValues });
     selectedValuesActions.add(value);
+
+    if (mode === "single") {
+      openControllerProps.setFalse();
+    }
   };
 
   return (
@@ -125,10 +137,11 @@ export function VirtualizedCombobox<
             badgeProps,
             onClear,
             onRemoveValue,
+            mode,
             ...restTriggerProps,
           })
         ) : (
-          <MyVirtualMultiComboboxTrigger
+          <MyVirtualComboboxTrigger
             truncate={truncate}
             badgeProps={badgeProps}
             loading={loading}
@@ -142,6 +155,7 @@ export function VirtualizedCombobox<
             buttonProps={restTriggerProps}
             onClear={onClear}
             onRemoveValue={onRemoveValue}
+            mode={mode}
           />
         )}
       </PopoverTrigger>
@@ -149,7 +163,7 @@ export function VirtualizedCombobox<
         className="p-0 w-full"
         style={{ width: "var(--radix-popover-trigger-width)" }}
       >
-        <VirtualizedCommand
+        <MyVirtualComboboxContent
           height={height}
           emptyMessage={emptyMessage}
           filteredOptions={options}
@@ -160,13 +174,14 @@ export function VirtualizedCombobox<
           onAddValue={onAddValue}
           onRemoveValue={onRemoveValue}
           renderLabel={renderLabel}
+          mode={mode}
         />
       </PopoverContent>
     </Popover>
   );
 }
 
-type TVirtualizedCommandProps<
+type TMyVirtualComboboxContentProps<
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData
@@ -182,9 +197,10 @@ type TVirtualizedCommandProps<
   onRemoveValue: (key: TData[TValue]) => void;
   renderLabel?: (option: TData) => string | React.ReactNode;
   onChangeCallBack?: (params: TOnChangeCallBackParams<TData[TValue]>) => void;
+  mode?: TSelectMode;
 };
 
-const VirtualizedCommand = <
+const MyVirtualComboboxContent = <
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData
@@ -200,7 +216,8 @@ const VirtualizedCommand = <
   onAddValue,
   onRemoveValue,
   renderLabel,
-}: TVirtualizedCommandProps<TData, TValue, TLabel>) => {
+  mode = "multiple",
+}: TMyVirtualComboboxContentProps<TData, TValue, TLabel>) => {
   const parentRef = React.useRef(null);
   const { isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } =
     infiniteQueryProps.query;
@@ -302,14 +319,23 @@ const VirtualizedCommand = <
                       typeof optionValue === "string"
                         ? currentValue
                         : Number(currentValue);
-                    if (isSelected) {
-                      onRemoveValue(coerceCurrentValue as TData[TValue]);
-                    } else {
+
+                    if (mode === "single" || !isSelected) {
                       onAddValue(coerceCurrentValue as TData[TValue]);
+                    } else if (isSelected) {
+                      onRemoveValue(coerceCurrentValue as TData[TValue]);
                     }
 
                     const newSet = new Set(selectedValues);
-                    if (isSelected) {
+                    if (mode === "single") {
+                      newSet.clear();
+                      newSet.add(coerceCurrentValue as TData[TValue]);
+                      onChangeCallBack?.({
+                        eventSelect: true,
+                        value: coerceCurrentValue as TData[TValue],
+                        values: newSet,
+                      });
+                    } else if (isSelected) {
                       onChangeCallBack?.({
                         eventSelect: false,
                         value: coerceCurrentValue as TData[TValue],
@@ -364,7 +390,7 @@ const VirtualizedCommand = <
   );
 };
 
-type TMyVirtualMultiComboboxTriggerProps<
+type TMyVirtualComboboxTriggerProps<
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData
@@ -382,9 +408,10 @@ type TMyVirtualMultiComboboxTriggerProps<
   allowClear?: boolean;
   onClear: () => void;
   onRemoveValue?: (value: TData[TValue]) => void;
+  mode?: TSelectMode;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "value">;
 
-export const MyVirtualMultiComboboxTrigger = <
+export const MyVirtualComboboxTrigger = <
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData
@@ -402,8 +429,9 @@ export const MyVirtualMultiComboboxTrigger = <
   allowClear = true,
   onClear,
   onRemoveValue,
+  mode = "multiple",
   ...props
-}: TMyVirtualMultiComboboxTriggerProps<TData, TValue, TLabel>) => {
+}: TMyVirtualComboboxTriggerProps<TData, TValue, TLabel>) => {
   const { className: badgeClassName, ...restBadgeProps } = badgeProps || {};
 
   const displayData = useMemo(() => {
@@ -433,7 +461,7 @@ export const MyVirtualMultiComboboxTrigger = <
       aria-expanded={open}
       className={cn(
         "group relative w-full text-left justify-start h-auto",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aria-invalid:bg-[#FEF2F2]",
+        "group-aria-invalid:ring-destructive/20 dark:group-aria-invalid:ring-destructive/40 group-aria-invalid:border-destructive group-aria-invalid:bg-[#FEF2F2]",
         className
       )}
       {...buttonProps}
@@ -441,6 +469,14 @@ export const MyVirtualMultiComboboxTrigger = <
     >
       {!displayData.hasValues || displayData.isEmpty ? (
         <p className="opacity-50">{placeholder}</p>
+      ) : mode === "single" ? (
+        <div className="flex items-center py-1 pr-6 overflow-hidden w-full">
+          <span className="truncate">
+            {displayData.selectedOptions[0]
+              ? String(displayData.selectedOptions[0][select.label])
+              : placeholder}
+          </span>
+        </div>
       ) : (
         <div className="flex flex-wrap gap-1 items-start py-1 pr-6 overflow-hidden w-full">
           {displayData.visibleOptions.map((option) => {
@@ -504,9 +540,9 @@ export const MyVirtualMultiComboboxTrigger = <
   );
 };
 
-MyVirtualMultiComboboxTrigger.displayName = "MyVirtualMultiComboboxTrigger";
+MyVirtualComboboxTrigger.displayName = "MyVirtualComboboxTrigger";
 
-export const MyVirtualMultiComboboxTriggerLabel = ({
+export const MyVirtualComboboxTriggerLabel = ({
   children,
   ...props
 }: {
@@ -519,5 +555,4 @@ export const MyVirtualMultiComboboxTriggerLabel = ({
   );
 };
 
-MyVirtualMultiComboboxTriggerLabel.displayName =
-  "MyVirtualMultiComboboxTriggerLabel";
+MyVirtualComboboxTriggerLabel.displayName = "MyVirtualComboboxTriggerLabel";

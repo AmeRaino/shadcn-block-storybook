@@ -1,8 +1,3 @@
-"use client";
-
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
-
-import { MyIconfy } from "@/components/base-component/my-icon";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,54 +12,76 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import useSet from "@/hooks/useSet";
 import { cn } from "@/lib/utils";
 import { commonIcon } from "@/shared/common-icon";
-import { TComboboxValue } from "@/types/share";
+import * as React from "react";
+import { ComponentProps, useMemo, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { MyIconfy } from "@/components/base-component/my-icon";
 
-type TValueState = [TComboboxValue, Dispatch<SetStateAction<TComboboxValue>>];
+type TSelectMode = "single" | "multiple";
 
-type TMapOption<T> = {
-  value: keyof T;
-  label: keyof T;
+type TOnChangeCallBackParams<T> = {
+  eventSelect: boolean;
+  value: T;
+  values: ReturnType<typeof useSet<T>>["0"];
 };
 
-type TMyCombobox<TData> = {
-  valueState: TValueState;
+type TMyComboboxProps<
+  TData,
+  TValue extends keyof TData = keyof TData,
+  TLabel extends keyof TData = keyof TData
+> = {
+  height?: string;
+  selectedState: ReturnType<typeof useSet<TData[TValue]>>;
+  options?: TData[];
+  select: { value: TValue; label: TLabel };
+  fieldFilter?: Array<keyof TData>;
+  truncate?: number;
+  allowClear?: boolean;
+  loading?: boolean;
   placeholder?: string;
   searchPlaceholder?: string;
   emptyMessage?: string;
-  triggerProps?: React.ComponentPropsWithoutRef<typeof Button>;
-  options: TData[];
-  select?: TMapOption<TData>;
-  fieldFilter?: Array<keyof TData>;
-  allowClear?: boolean;
-  loading?: boolean;
+  triggerProps?: ComponentProps<"button">;
+  badgeProps?: React.ComponentPropsWithoutRef<typeof Badge>;
   renderLabel?: (option: TData) => string | React.ReactNode;
-  onChangeCallBack?: (value: string) => void | string;
-  children?: (props: TMyComboboxTriggerProps<TData>) => React.ReactNode;
+  onChangeCallBack?: (params: TOnChangeCallBackParams<TData[TValue]>) => void;
+  renderTrigger?: (
+    props: TMyComboboxTriggerProps<TData, TValue, TLabel>
+  ) => React.ReactNode;
+  mode?: TSelectMode;
 };
 
-export const MyCombobox = <TData,>({
-  children,
-  valueState,
+export function MyCombobox<
+  TData,
+  TValue extends keyof TData = keyof TData,
+  TLabel extends keyof TData = keyof TData
+>({
+  selectedState,
   triggerProps,
   placeholder = "",
   searchPlaceholder = "Tìm kiếm...",
   emptyMessage = "Không có dữ liệu",
-  options,
+  options = [],
   select = {
-    value: "Id" as keyof TData,
-    label: "Name" as keyof TData,
+    value: "Id" as TValue,
+    label: "Name" as TLabel,
   },
   fieldFilter,
   allowClear = true,
   loading = false,
+  truncate,
+  badgeProps,
   renderLabel,
   onChangeCallBack,
-}: TMyCombobox<TData>) => {
-  const [open, setOpen] = useState(false);
+  renderTrigger,
+  mode = "single",
+}: TMyComboboxProps<TData, TValue, TLabel>) {
+  const [open, setOpen] = React.useState(false);
+  const [selectedValues, selectedValuesActions] = selectedState;
   const [searchValue, setSearchValue] = useState("");
-  const [value, setValue] = valueState;
 
   const { className: triggerClassName, ...restTriggerProps } =
     triggerProps || {};
@@ -85,24 +102,38 @@ export const MyCombobox = <TData,>({
     });
   }, [options, searchValue, fieldFilter, select.value]);
 
-  const onClosePopover = () => {
-    setOpen(false);
-  };
-
   const onSearch = (value: string) => {
     setSearchValue(value);
   };
 
   const onClear = () => {
-    setValue(undefined);
+    selectedValuesActions.reset();
+  };
+
+  const onRemoveValue = (value: TData[TValue]) => {
+    onChangeCallBack?.({ eventSelect: false, value, values: selectedValues });
+    selectedValuesActions.remove(value);
+  };
+
+  const onAddValue = (value: TData[TValue]) => {
+    if (mode === "single") {
+      selectedValuesActions.reset();
+    }
+
+    onChangeCallBack?.({ eventSelect: true, value, values: selectedValues });
+    selectedValuesActions.add(value);
+
+    if (mode === "single") {
+      setOpen(false);
+    }
   };
 
   return (
-    <Popover modal={true} open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        {children ? (
-          children({
-            value,
+        {renderTrigger ? (
+          renderTrigger({
+            selectedValues,
             placeholder,
             options,
             select,
@@ -110,14 +141,20 @@ export const MyCombobox = <TData,>({
             open,
             allowClear,
             loading,
+            truncate,
+            badgeProps,
             onClear,
+            onRemoveValue,
+            mode,
             ...restTriggerProps,
           })
         ) : (
           <MyComboboxTrigger
+            truncate={truncate}
+            badgeProps={badgeProps}
             loading={loading}
             allowClear={allowClear}
-            value={value}
+            selectedValues={selectedValues}
             placeholder={placeholder}
             options={options}
             select={select}
@@ -125,100 +162,124 @@ export const MyCombobox = <TData,>({
             open={open}
             buttonProps={restTriggerProps}
             onClear={onClear}
+            onRemoveValue={onRemoveValue}
+            mode={mode}
           />
         )}
       </PopoverTrigger>
-      <MyPopoverContent
-        fieldFilter={fieldFilter}
-        searchPlaceholder={searchPlaceholder}
-        onSearch={onSearch}
-        emptyMessage={emptyMessage}
-        filteredOptions={filteredOptions}
-        select={select}
-        value={value}
-        onChangeCallBack={onChangeCallBack}
-        onChangeValue={(val) => setValue(val)}
-        onClosePopover={onClosePopover}
-        renderLabel={renderLabel}
-      />
+      <PopoverContent
+        className="p-0 w-full"
+        style={{ width: "var(--radix-popover-trigger-width)" }}
+      >
+        <MyComboboxContent
+          emptyMessage={emptyMessage}
+          filteredOptions={filteredOptions}
+          searchPlaceholder={searchPlaceholder}
+          select={select}
+          selectedValues={selectedValues}
+          onSearch={onSearch}
+          onAddValue={onAddValue}
+          onRemoveValue={onRemoveValue}
+          renderLabel={renderLabel}
+          mode={mode}
+        />
+      </PopoverContent>
     </Popover>
   );
-};
+}
 
-MyCombobox.displayName = "MyCombobox";
-
-type TMyPopoverContentProps<TData> = {
-  value: string | number | readonly string[] | undefined;
-  fieldFilter?: Array<keyof TData>;
-  searchPlaceholder: string;
-  emptyMessage: string;
+type TMyComboboxContentProps<
+  TData,
+  TValue extends keyof TData = keyof TData,
+  TLabel extends keyof TData = keyof TData
+> = {
+  selectedValues: ReturnType<typeof useSet<TData[TValue]>>[0];
   filteredOptions: TData[];
-  select: TMapOption<TData>;
+  select: { value: TValue; label: TLabel };
+  searchPlaceholder?: string;
+  emptyMessage?: string;
   onSearch: (value: string) => void;
-  onChangeCallBack?: (value: string) => void | string;
-  onChangeValue: (
-    value: string | number | readonly string[] | undefined
-  ) => void;
-  onClosePopover: (open: boolean) => void;
+  onAddValue: (key: TData[TValue]) => void;
+  onRemoveValue: (key: TData[TValue]) => void;
   renderLabel?: (option: TData) => string | React.ReactNode;
+  onChangeCallBack?: (params: TOnChangeCallBackParams<TData[TValue]>) => void;
+  mode?: TSelectMode;
 };
 
-export const MyPopoverContent = <TData,>({
-  fieldFilter,
+const MyComboboxContent = <
+  TData,
+  TValue extends keyof TData = keyof TData,
+  TLabel extends keyof TData = keyof TData
+>({
   searchPlaceholder,
-  onSearch,
   emptyMessage,
   filteredOptions,
   select,
-  value,
+  selectedValues,
+  onSearch,
   onChangeCallBack,
-  onChangeValue,
-  onClosePopover,
+  onAddValue,
+  onRemoveValue,
   renderLabel,
-}: TMyPopoverContentProps<TData>) => {
+  mode = "single",
+}: TMyComboboxContentProps<TData, TValue, TLabel>) => {
   return (
-    <PopoverContent
-      className="w-full p-0"
-      style={{ width: "var(--radix-popover-trigger-width)" }}
-    >
-      <Command>
-        {!fieldFilter && <CommandInput placeholder={searchPlaceholder} />}
-        {!!fieldFilter && (
-          <div
-            data-slot="command-input-wrapper"
-            className="flex h-9 items-center gap-2 border-b px-3"
-          >
-            <MyIconfy
-              icon={commonIcon.searchIcon}
-              className="size-4 shrink-0 opacity-50"
-            />
-            <input
-              data-slot="command-input"
-              className="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
-              onChange={(e) => onSearch(e.target.value)}
-              placeholder={searchPlaceholder}
-            />
-          </div>
-        )}
-        <CommandList>
-          <CommandEmpty>{emptyMessage}</CommandEmpty>
-          <CommandGroup>
-            {filteredOptions.map((option) => (
+    <Command shouldFilter={false}>
+      <CommandInput onValueChange={onSearch} placeholder={searchPlaceholder} />
+      <CommandList>
+        <CommandEmpty>{emptyMessage}</CommandEmpty>
+        <CommandGroup>
+          {filteredOptions.map((option) => {
+            const optionValue = option[select.value];
+
+            const optionLabel = option[select.label];
+
+            const isSelected = optionValue
+              ? selectedValues.has(optionValue)
+              : false;
+            const coerceStringValue = String(optionValue);
+
+            return (
               <CommandItem
-                key={String(option[select.value])}
-                value={String(option[select.value])}
-                title={String(option[select.label])}
+                key={coerceStringValue}
+                value={coerceStringValue}
+                title={String(optionLabel)}
                 onSelect={(currentValue) => {
-                  const newValue = currentValue === value ? "" : currentValue;
-                  if (typeof onChangeCallBack !== "function") {
-                    onChangeValue(newValue);
-                  } else {
-                    const formatValue = onChangeCallBack(newValue);
-                    onChangeValue(
-                      typeof formatValue === "string" ? formatValue : newValue
-                    );
+                  const coerceCurrentValue =
+                    typeof option[select.value] === "string"
+                      ? currentValue
+                      : Number(currentValue);
+
+                  if (mode === "single" || !isSelected) {
+                    onAddValue(coerceCurrentValue as TData[TValue]);
+                  } else if (isSelected) {
+                    onRemoveValue(coerceCurrentValue as TData[TValue]);
                   }
-                  onClosePopover(false);
+
+                  const newSet = new Set(selectedValues);
+                  if (mode === "single") {
+                    newSet.clear();
+                    newSet.add(coerceCurrentValue as TData[TValue]);
+                    onChangeCallBack?.({
+                      eventSelect: true,
+                      value: coerceCurrentValue as TData[TValue],
+                      values: newSet,
+                    });
+                  } else if (isSelected) {
+                    onChangeCallBack?.({
+                      eventSelect: false,
+                      value: coerceCurrentValue as TData[TValue],
+                      values: newSet,
+                    });
+                    newSet.delete(coerceCurrentValue as TData[TValue]);
+                  } else {
+                    onChangeCallBack?.({
+                      eventSelect: true,
+                      value: coerceCurrentValue as TData[TValue],
+                      values: newSet,
+                    });
+                    newSet.add(coerceCurrentValue as TData[TValue]);
+                  }
                 }}
               >
                 <div className="flex-1 truncate pr-2">
@@ -229,39 +290,49 @@ export const MyPopoverContent = <TData,>({
                 <MyIconfy
                   icon={commonIcon.check}
                   className={cn(
-                    "ml-auto h-4 w-4",
-                    value === String(option[select.value])
-                      ? "opacity-100"
-                      : "opacity-0"
+                    "ml-auto h-4 w-4 shrink-0",
+                    isSelected ? "opacity-100" : "opacity-0"
                   )}
                 />
               </CommandItem>
-            ))}
-          </CommandGroup>
-        </CommandList>
-      </Command>
-    </PopoverContent>
+            );
+          })}
+        </CommandGroup>
+      </CommandList>
+    </Command>
   );
 };
 
-MyPopoverContent.displayName = "MyPopoverContent";
-
-type TMyComboboxTriggerProps<TData> = {
+type TMyComboboxTriggerProps<
+  TData,
+  TValue extends keyof TData = keyof TData,
+  TLabel extends keyof TData = keyof TData
+> = {
+  truncate?: number;
+  badgeProps?: React.ComponentPropsWithoutRef<typeof Badge>;
   loading?: boolean;
-  value: string | number | readonly string[] | undefined;
-  placeholder: string;
+  selectedValues: ReturnType<typeof useSet<TData[TValue]>>[0];
   options: TData[];
-  select: TMapOption<TData>;
+  select: { value: TValue; label: TLabel };
+  placeholder: string;
   className?: string;
   open: boolean;
   buttonProps?: React.ComponentPropsWithoutRef<typeof Button>;
   allowClear?: boolean;
   onClear: () => void;
+  onRemoveValue?: (value: TData[TValue]) => void;
+  mode?: TSelectMode;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "value">;
 
-export const MyComboboxTrigger = <TData,>({
+export const MyComboboxTrigger = <
+  TData,
+  TValue extends keyof TData = keyof TData,
+  TLabel extends keyof TData = keyof TData
+>({
+  truncate = 3,
+  badgeProps,
   loading = false,
-  value,
+  selectedValues,
   placeholder,
   options,
   select,
@@ -270,19 +341,30 @@ export const MyComboboxTrigger = <TData,>({
   buttonProps,
   allowClear = true,
   onClear,
+  onRemoveValue,
+  mode = "single",
   ...props
-}: TMyComboboxTriggerProps<TData>) => {
-  const displayValue = useMemo(() => {
-    if (!value) return <p className="opacity-50">{placeholder}</p>;
+}: TMyComboboxTriggerProps<TData, TValue, TLabel>) => {
+  const { className: badgeClassName, ...restBadgeProps } = badgeProps || {};
 
-    const selectedOption = options.find(
-      (option) => String(option[select.value]) === value
+  const displayData = useMemo(() => {
+    const hasValues = selectedValues.size > 0;
+
+    const selectedOptions = options.filter((option) =>
+      selectedValues.has(option[select.value])
     );
 
-    if (!selectedOption) return <p className="opacity-50">{placeholder}</p>;
+    const visibleOptions = selectedOptions.slice(0, truncate);
+    const remainingCount = selectedOptions.length - truncate;
 
-    return String(selectedOption[select.label]);
-  }, [value, options, select.value, select.label, placeholder]);
+    return {
+      hasValues,
+      isEmpty: selectedOptions.length === 0,
+      selectedOptions,
+      visibleOptions,
+      remainingCount: remainingCount > 0 ? remainingCount : 0,
+    };
+  }, [selectedValues, options, select.value, truncate]);
 
   return (
     <Button
@@ -291,19 +373,65 @@ export const MyComboboxTrigger = <TData,>({
       role="combobox"
       aria-expanded={open}
       className={cn(
-        "group relative w-full",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aria-invalid:bg-[#FEF2F2]",
+        "group relative w-full text-left justify-start h-auto",
+        "group-aria-invalid:ring-destructive/20 dark:group-aria-invalid:ring-destructive/40 group-aria-invalid:border-destructive group-aria-invalid:bg-[#FEF2F2]",
         className
       )}
       {...buttonProps}
       {...props}
     >
-      {displayValue}
+      {!displayData.hasValues || displayData.isEmpty ? (
+        <p className="opacity-50">{placeholder}</p>
+      ) : mode === "single" ? (
+        <div className="flex items-center py-1 pr-6 overflow-hidden w-full">
+          <span className="truncate">
+            {displayData.selectedOptions[0]
+              ? String(displayData.selectedOptions[0][select.label])
+              : placeholder}
+          </span>
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-1 items-start py-1 pr-6 overflow-hidden w-full">
+          {displayData.visibleOptions.map((option) => {
+            const optionValue = option[select.value];
+            const label = String(option[select.label]);
+
+            return (
+              <Badge
+                key={String(optionValue)}
+                className={cn(
+                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs cursor-default border-transparent bg-muted text-foreground hover:bg-muted max-w-[100px]",
+                  badgeClassName
+                )}
+                {...restBadgeProps}
+              >
+                <span className="truncate">{label}</span>
+                <MyIconfy
+                  size="sm"
+                  icon={commonIcon.close}
+                  className="h-3.5 w-3.5 cursor-pointer opacity-70 hover:opacity-100"
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    onRemoveValue?.(optionValue as TData[TValue]);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+
+          {displayData.remainingCount > 0 && (
+            <div className="text-sm font-medium text-muted-foreground">
+              +{displayData.remainingCount}
+            </div>
+          )}
+        </div>
+      )}
       <MyIconfy
         icon={loading ? commonIcon.loader : commonIcon.chevronDown}
         className={cn(
-          "ml-auto h-4 w-4 opacity-50",
-          !!value && allowClear && "group-hover:opacity-0",
+          "ml-auto h-4 w-4 opacity-50 shrink-0",
+          displayData.hasValues && allowClear && "group-hover:opacity-0",
           loading && "animate-spin"
         )}
       />
@@ -312,7 +440,9 @@ export const MyComboboxTrigger = <TData,>({
         icon={commonIcon.cancel}
         className={cn(
           "text-neutral-400 h-4 w-4 absolute right-2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity",
-          !!value && allowClear && "group-hover:opacity-100 cursor-pointer"
+          displayData.hasValues &&
+            allowClear &&
+            "group-hover:opacity-100 cursor-pointer"
         )}
         onClick={(e) => {
           e.stopPropagation();

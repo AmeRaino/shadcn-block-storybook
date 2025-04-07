@@ -819,53 +819,6 @@ function BasicFormExample() {
  * };
  * ```
  *
- * ## Displaying Submitted Values
- *
- * You can display the submitted values after form submission:
- *
- * ```tsx
- * const [submittedValues, setSubmittedValues] = React.useState<{
- *   raw: number[] | null;
- *   formatted: string | null;
- * }>({
- *   raw: null,
- *   formatted: null,
- * });
- *
- * const onSubmit = (data: TForm) => {
- *   const apiPayload: TApi = {
- *     entities: Array.from(data.entities).join(","),
- *   };
- *
- *   setSubmittedValues({
- *     raw: Array.from(data.entities),
- *     formatted: apiPayload.entities,
- *   });
- * };
- *
- * // In your JSX:
- * {submittedValues.raw !== null && (
- *   <div className="mt-4 p-2 bg-gray-100 rounded-md space-y-2">
- *     <div>
- *       <p className="font-medium">Selected Entities:</p>
- *       <p>
- *         {submittedValues.raw.length > 0
- *           ? submittedValues.raw
- *               .map(id => entities.find(e => e.id === id)?.name)
- *               .join(", ")
- *           : "None"}
- *       </p>
- *     </div>
- *     <div>
- *       <p className="font-medium">API Payload Format:</p>
- *       <p className="font-mono bg-slate-200 p-1 rounded">
- *         entities: "{submittedValues.formatted}"
- *       </p>
- *     </div>
- *   </div>
- * )}
- * ```
- *
  * ## Using MyVirtualComboboxAsync directly (without form integration)
  * ```tsx
  * import { MyVirtualComboboxAsync } from '@/components/base-component/my-virtual-combobox-async';

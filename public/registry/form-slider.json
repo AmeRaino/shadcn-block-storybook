@@ -5,9 +5,6 @@
     "form",
     "slider"
   ],
-  "dependencies": [
-    "react-hook-form"
-  ],
   "files": [
     {
       "type": "registry:block",

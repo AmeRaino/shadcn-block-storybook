@@ -80,7 +80,6 @@ export const ui: Registry = [
     name: "form-checkbox",
     type: "registry:block",
     registryDependencies: ["form", "checkbox"],
-    dependencies: ["react-hook-form"],
     files: ["block/form/form-checkbox.tsx"],
   },
   {
@@ -124,14 +123,12 @@ export const ui: Registry = [
     name: "form-slider",
     type: "registry:block",
     registryDependencies: ["form", "slider"],
-    dependencies: ["react-hook-form"],
     files: ["block/form/form-slider.tsx"],
   },
   {
     name: "form-switch",
     type: "registry:block",
     registryDependencies: ["form", "switch"],
-    dependencies: ["react-hook-form"],
     files: ["block/form/form-switch.tsx"],
   },
   {

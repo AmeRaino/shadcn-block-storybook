@@ -5,9 +5,6 @@
     "form",
     "checkbox"
   ],
-  "dependencies": [
-    "react-hook-form"
-  ],
   "files": [
     {
       "type": "registry:block",

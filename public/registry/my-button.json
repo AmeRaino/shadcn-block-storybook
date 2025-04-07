@@ -1,7 +1,9 @@
 {
   "name": "my-button",
   "type": "registry:block",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "files": [
     {
       "type": "registry:block",

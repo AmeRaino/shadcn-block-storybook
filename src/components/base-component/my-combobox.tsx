@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 
+import { MyIconfy } from "@/components/base-component/my-icon";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,7 +19,9 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { commonIcon } from "@/shared/common-icon";
-import { MyIconfy } from "@/components/base-component/my-icon";
+import { TComboboxValue } from "@/types/share";
+
+type TValueState = [TComboboxValue, Dispatch<SetStateAction<TComboboxValue>>];
 
 type TMapOption<T> = {
   value: keyof T;
@@ -26,6 +29,7 @@ type TMapOption<T> = {
 };
 
 type TMyCombobox<TData> = {
+  valueState: TValueState;
   placeholder?: string;
   searchPlaceholder?: string;
   emptyMessage?: string;
@@ -42,6 +46,7 @@ type TMyCombobox<TData> = {
 
 export const MyCombobox = <TData,>({
   children,
+  valueState,
   triggerProps,
   placeholder = "",
   searchPlaceholder = "Tìm kiếm...",
@@ -59,9 +64,8 @@ export const MyCombobox = <TData,>({
 }: TMyCombobox<TData>) => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [value, setValue] = useState<
-    string | number | readonly string[] | undefined
-  >();
+  const [value, setValue] = valueState;
+
   const { className: triggerClassName, ...restTriggerProps } =
     triggerProps || {};
 
@@ -203,6 +207,7 @@ export const MyPopoverContent = <TData,>({
               <CommandItem
                 key={String(option[select.value])}
                 value={String(option[select.value])}
+                title={String(option[select.label])}
                 onSelect={(currentValue) => {
                   const newValue = currentValue === value ? "" : currentValue;
                   if (typeof onChangeCallBack !== "function") {
@@ -216,9 +221,11 @@ export const MyPopoverContent = <TData,>({
                   onClosePopover(false);
                 }}
               >
-                {renderLabel
-                  ? renderLabel(option)
-                  : String(option[select.label])}
+                <div className="flex-1 truncate pr-2">
+                  {renderLabel
+                    ? renderLabel(option)
+                    : String(option[select.label])}
+                </div>
                 <MyIconfy
                   icon={commonIcon.check}
                   className={cn(
@@ -317,3 +324,18 @@ export const MyComboboxTrigger = <TData,>({
 };
 
 MyComboboxTrigger.displayName = "MyComboboxTrigger";
+
+export const MyComboboxTriggerLabel = ({
+  children,
+  ...props
+}: {
+  children: React.ReactNode;
+} & React.ComponentPropsWithoutRef<"span">) => {
+  return (
+    <span className="overflow-hidden text-ellipsis flex-1" {...props}>
+      {children}
+    </span>
+  );
+};
+
+MyComboboxTriggerLabel.displayName = "MyComboboxTriggerLabel";

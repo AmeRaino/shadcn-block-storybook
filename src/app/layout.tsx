@@ -1,7 +1,9 @@
+import Providers from "@/components/providers";
+import { ReactScan } from "@/components/ReactScanComponent";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
-import { ReactScan } from "@/components/ReactScanComponent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,11 +31,13 @@ export default function RootLayout({
       data-locator-target="vscode"
       data-locator-mouse-modifiers=""
     >
+      <ReactScan />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReactScan />
-        {children}
+        <Providers>
+          <Suspense>{children}</Suspense>
+        </Providers>
       </body>
     </html>
   );

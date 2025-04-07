@@ -27,7 +27,7 @@ type TFormCombobox<
   control: Control<TFieldValues>;
   label?: string;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
-} & ComponentProps<typeof MyCombobox<TData>>;
+} & Omit<ComponentProps<typeof MyCombobox<TData>>, "valueState">;
 
 export const FormCombobox = <
   TData,

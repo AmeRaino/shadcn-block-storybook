@@ -27,7 +27,7 @@ type TFormMultiCombobox<
   control: Control<TFieldValues>;
   label?: string;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
-} & ComponentProps<typeof MyMultiCombobox<TData>>;
+} & Omit<ComponentProps<typeof MyMultiCombobox<TData>>, "selectedState">;
 
 // Utility function to convert a value to a Set
 const valueToSet = (value: unknown): Set<string> => {

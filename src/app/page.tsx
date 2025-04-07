@@ -13,6 +13,8 @@ import {
 } from "@/components/form";
 import { FormSlider } from "@/components/form/form-slider";
 
+import { MyComboboxTriggerLabel } from "@/components/base-component/my-combobox";
+import { MyMultiComboboxTriggerLabel } from "@/components/base-component/my-multi-combobox";
 import { Form } from "@/components/ui/form";
 import { commonIcon } from "@/shared/common-icon";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -79,24 +81,26 @@ export default function Home() {
               options={[
                 {
                   code: "DEV",
-                  label: "DeveloperDeveloperDeveloper ",
-                  value: "developer",
+                  label: "Developer - Developer - Developer - Developer",
+                  value: 1,
                 },
                 {
                   code: "DES",
                   label: "Designer",
-                  value: "designer",
+                  value: 2,
                 },
                 {
                   code: "QA",
                   label: "QA",
-                  value: "qa",
+                  value: 3,
                 },
               ]}
               renderLabel={(option) => (
                 <div className="flex items-center gap-2">
                   <MyIconfy icon="lucide:sparkles" size="sm" />
-                  <span>{option.code}</span> - <span>{option.label}</span>
+                  <MyMultiComboboxTriggerLabel>
+                    <span>{option.code}</span> - <span>{option.label}</span>
+                  </MyMultiComboboxTriggerLabel>
                 </div>
               )}
             />
@@ -117,11 +121,11 @@ export default function Home() {
               options={[
                 {
                   label: "Male",
-                  value: "male",
+                  value: 1,
                 },
                 {
                   label: "Female",
-                  value: "female",
+                  value: 2,
                 },
               ]}
             />
@@ -136,24 +140,26 @@ export default function Home() {
               options={[
                 {
                   code: "DEV",
-                  label: "Developer",
-                  value: "developer",
+                  label: "Developer - Developer - Developer - Developer",
+                  value: 1,
                 },
                 {
                   code: "DES",
                   label: "Designer",
-                  value: "designer",
+                  value: 2,
                 },
                 {
                   code: "QA",
                   label: "QA",
-                  value: "qa",
+                  value: 3,
                 },
               ]}
               renderLabel={(option) => (
                 <div className="flex items-center gap-2">
                   <MyIconfy icon="lucide:sparkles" size="sm" />
-                  <span>{option.code}</span> - <span>{option.label}</span>
+                  <MyComboboxTriggerLabel title={option.label}>
+                    <span>{option.code}</span> - <span>{option.label}</span>
+                  </MyComboboxTriggerLabel>
                 </div>
               )}
             />

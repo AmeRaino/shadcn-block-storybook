@@ -1,16 +1,8 @@
 {
   "name": "form-virtual-combobox-async",
   "type": "registry:block",
-  "registryDependencies": [
-    "form",
-    "button",
-    "command",
-    "popover"
-  ],
-  "dependencies": [
-    "@tanstack/react-virtual",
-    "@tanstack/react-query"
-  ],
+  "registryDependencies": ["form", "button", "command", "popover"],
+  "dependencies": ["@tanstack/react-virtual", "@tanstack/react-query"],
   "files": [
     {
       "type": "registry:block",
@@ -37,11 +29,13 @@
       "target": "components/block/common-icon.tsx"
     },
     {
+      "type": "registry:hook",
       "content": "import { useCallback, useState } from 'react'\r\n\r\nimport type { Dispatch, SetStateAction } from 'react'\r\n\r\ntype TUseBooleanReturn = {\r\n\tvalue: boolean\r\n\tsetValue: Dispatch<SetStateAction<boolean>>\r\n\tsetTrue: () => void\r\n\tsetFalse: () => void\r\n\ttoggle: () => void\r\n}\r\n\r\nexport function useBoolean(defaultValue: boolean = false): TUseBooleanReturn {\r\n\tconst [value, setValue] = useState(defaultValue)\r\n\r\n\tconst setTrue = useCallback(() => {\r\n\t\tsetValue(true)\r\n\t}, [])\r\n\r\n\tconst setFalse = useCallback(() => {\r\n\t\tsetValue(false)\r\n\t}, [])\r\n\r\n\tconst toggle = useCallback(() => {\r\n\t\tsetValue((x) => !x)\r\n\t}, [])\r\n\r\n\treturn { value, setValue, setTrue, setFalse, toggle }\r\n}\r\n",
       "path": "hook/useBoolean.ts",
       "target": "components/hook/useBoolean.ts"
     },
     {
+      "type": "registry:hook",
       "content": "import { useState } from \"react\";\r\n\r\nfunction useSet<K>(initialValue?: Iterable<K>) {\r\n  const getInitValue = () => new Set(initialValue);\r\n  const [set, setSet] = useState<Set<K>>(getInitValue);\r\n\r\n  const add = (key: K) => {\r\n    if (set.has(key)) {\r\n      return;\r\n    }\r\n    setSet((prevSet) => {\r\n      const temp = new Set(prevSet);\r\n      temp.add(key);\r\n      return temp;\r\n    });\r\n  };\r\n\r\n  const remove = (key: K) => {\r\n    if (!set.has(key)) {\r\n      return;\r\n    }\r\n    setSet((prevSet) => {\r\n      const temp = new Set(prevSet);\r\n      temp.delete(key);\r\n      return temp;\r\n    });\r\n  };\r\n\r\n  const reset = () => setSet(getInitValue());\r\n\r\n  return [\r\n    set,\r\n    {\r\n      add,\r\n      remove,\r\n      reset,\r\n    },\r\n  ] as const;\r\n}\r\n\r\nexport default useSet;\r\n",
       "path": "hook/useSet.ts",
       "target": "components/hook/useSet.ts"

@@ -14,7 +14,7 @@ export const ui: Registry = [
   {
     name: "my-icon",
     type: "registry:block",
-    dependencies: ["iconify-icon"],
+    dependencies: ["iconify-icon", "@iconify-icon/react"],
     files: ["block/base-component/my-icon.tsx", "block/common-icon.tsx"],
   },
   {
@@ -62,6 +62,9 @@ export const ui: Registry = [
       "block/common-icon.tsx",
       "hook/useBoolean.ts",
       "hook/useSet.ts",
+      "hook/use-debounced-callback.ts",
+      "hook/use-callback-ref.ts",
+      "hook/use-debounce.ts",
     ],
   },
   {
@@ -143,6 +146,9 @@ export const ui: Registry = [
       "block/common-icon.tsx",
       "hook/useBoolean.ts",
       "hook/useSet.ts",
+      "hook/use-debounced-callback.ts",
+      "hook/use-callback-ref.ts",
+      "hook/use-debounce.ts",
     ],
   },
 ];

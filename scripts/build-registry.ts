@@ -12,7 +12,7 @@ type File = z.infer<typeof registryItemFileSchema>;
 const FolderToComponentTypeMap = {
   block: "registry:block",
   component: "registry:component",
-  hooks: "registry:hook",
+  hook: "registry:hook",
   ui: "registry:ui",
 };
 
@@ -37,6 +37,14 @@ const getComponentFiles = async (files: File[]) => {
     if (typeof file === "string") {
       const filePath = `${REGISTRY_BASE_PATH}/${file}`;
       const fileContent = await fs.readFile(filePath, "utf-8");
+
+      console.log(`zz ~ filesArrayPromises ~ file.split("/")[0]:`, {
+        type: FolderToComponentTypeMap[
+          file.split("/")[0] as keyof typeof FolderToComponentTypeMap
+        ],
+        path: file,
+        target: `${COMPONENT_FOLDER_PATH}/${file}`,
+      });
       return {
         type: FolderToComponentTypeMap[
           file.split("/")[0] as keyof typeof FolderToComponentTypeMap

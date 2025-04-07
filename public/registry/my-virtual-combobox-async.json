@@ -1,8 +1,16 @@
 {
   "name": "my-virtual-combobox-async",
   "type": "registry:block",
-  "registryDependencies": ["button", "command", "popover", "badge"],
-  "dependencies": ["@tanstack/react-virtual", "@tanstack/react-query"],
+  "registryDependencies": [
+    "button",
+    "command",
+    "popover",
+    "badge"
+  ],
+  "dependencies": [
+    "@tanstack/react-virtual",
+    "@tanstack/react-query"
+  ],
   "files": [
     {
       "type": "registry:block",
@@ -33,6 +41,24 @@
       "content": "import { useState } from \"react\";\r\n\r\nfunction useSet<K>(initialValue?: Iterable<K>) {\r\n  const getInitValue = () => new Set(initialValue);\r\n  const [set, setSet] = useState<Set<K>>(getInitValue);\r\n\r\n  const add = (key: K) => {\r\n    if (set.has(key)) {\r\n      return;\r\n    }\r\n    setSet((prevSet) => {\r\n      const temp = new Set(prevSet);\r\n      temp.add(key);\r\n      return temp;\r\n    });\r\n  };\r\n\r\n  const remove = (key: K) => {\r\n    if (!set.has(key)) {\r\n      return;\r\n    }\r\n    setSet((prevSet) => {\r\n      const temp = new Set(prevSet);\r\n      temp.delete(key);\r\n      return temp;\r\n    });\r\n  };\r\n\r\n  const reset = () => setSet(getInitValue());\r\n\r\n  return [\r\n    set,\r\n    {\r\n      add,\r\n      remove,\r\n      reset,\r\n    },\r\n  ] as const;\r\n}\r\n\r\nexport default useSet;\r\n",
       "path": "hook/useSet.ts",
       "target": "components/hook/useSet.ts"
+    },
+    {
+      "type": "registry:hook",
+      "content": "/**\r\n * @see https://github.com/mantinedev/mantine/blob/master/packages/@mantine/hooks/src/use-debounced-callback/use-debounced-callback.ts\r\n */\r\n\r\nimport * as React from \"react\";\r\n\r\nimport { useCallbackRef } from \"@/hook/use-callback-ref\";\r\n\r\nexport function useDebouncedCallback<T extends (...args: never[]) => unknown>(\r\n  callback: T,\r\n  delay: number\r\n) {\r\n  const handleCallback = useCallbackRef(callback);\r\n  const debounceTimerRef = React.useRef(0);\r\n  React.useEffect(\r\n    () => () => window.clearTimeout(debounceTimerRef.current),\r\n    []\r\n  );\r\n\r\n  const setValue = React.useCallback(\r\n    (...args: Parameters<T>) => {\r\n      window.clearTimeout(debounceTimerRef.current);\r\n      debounceTimerRef.current = window.setTimeout(\r\n        () => handleCallback(...args),\r\n        delay\r\n      );\r\n    },\r\n    [handleCallback, delay]\r\n  );\r\n\r\n  return setValue;\r\n}\r\n",
+      "path": "hook/use-debounced-callback.ts",
+      "target": "components/hook/use-debounced-callback.ts"
+    },
+    {
+      "type": "registry:hook",
+      "content": "import * as React from \"react\";\r\n\r\n/**\r\n * @see https://github.com/radix-ui/primitives/blob/main/packages/react/use-callback-ref/src/useCallbackRef.tsx\r\n */\r\n\r\n/**\r\n * A custom hook that converts a callback to a ref to avoid triggering re-renders when passed as a\r\n * prop or avoid re-executing effects when passed as a dependency\r\n */\r\nfunction useCallbackRef<T extends (...args: never[]) => unknown>(\r\n  callback: T | undefined\r\n): T {\r\n  const callbackRef = React.useRef(callback);\r\n\r\n  React.useEffect(() => {\r\n    callbackRef.current = callback;\r\n  });\r\n\r\n  // https://github.com/facebook/react/issues/19240\r\n  return React.useMemo(\r\n    () => ((...args) => callbackRef.current?.(...args)) as T,\r\n    []\r\n  );\r\n}\r\n\r\nexport { useCallbackRef };\r\n",
+      "path": "hook/use-callback-ref.ts",
+      "target": "components/hook/use-callback-ref.ts"
+    },
+    {
+      "type": "registry:hook",
+      "content": "import * as React from \"react\";\r\n\r\nexport function useDebounce<T>(value: T, delay?: number): T {\r\n  const [debouncedValue, setDebouncedValue] = React.useState<T>(value);\r\n\r\n  React.useEffect(() => {\r\n    const timer = setTimeout(() => setDebouncedValue(value), delay ?? 500);\r\n\r\n    return () => {\r\n      clearTimeout(timer);\r\n    };\r\n  }, [value, delay]);\r\n\r\n  return debouncedValue;\r\n}\r\n",
+      "path": "hook/use-debounce.ts",
+      "target": "components/hook/use-debounce.ts"
     }
   ]
 }

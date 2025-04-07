@@ -1,0 +1,15 @@
+{
+  "name": "my-checkbox",
+  "type": "registry:block",
+  "registryDependencies": [
+    "checkbox"
+  ],
+  "files": [
+    {
+      "type": "registry:block",
+      "content": "import * as React from \"react\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\nimport { Checkbox } from \"@/components/ui/checkbox\";\r\n\r\ntype TProps = React.ComponentProps<typeof Checkbox>;\r\nfunction MyCheckbox({ className, ...props }: TProps) {\r\n  return (\r\n    <Checkbox\r\n      className={cn(\r\n        \"aria-[invalid=true]:ring-destructive/20 dark:aria-[invalid=true]:ring-destructive/40 aria-[invalid=true]:border-destructive aria-[invalid=true]:text-destructive aria-[invalid=true]:bg-[#FEF2F2]\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  );\r\n}\r\n\r\nexport { MyCheckbox };\r\n",
+      "path": "block/base-component/my-checkbox.tsx",
+      "target": "components/block/base-component/my-checkbox.tsx"
+    }
+  ]
+}

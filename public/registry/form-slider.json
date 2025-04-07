@@ -1,0 +1,19 @@
+{
+  "name": "form-slider",
+  "type": "registry:block",
+  "registryDependencies": [
+    "form",
+    "slider"
+  ],
+  "dependencies": [
+    "react-hook-form"
+  ],
+  "files": [
+    {
+      "type": "registry:block",
+      "content": "\"use client\";\r\n\r\nimport * as LabelPrimitive from \"@radix-ui/react-label\";\r\nimport { Control, FieldPath, FieldValues } from \"react-hook-form\";\r\n\r\nimport {\r\n  FormControl,\r\n  FormField,\r\n  FormItem,\r\n  FormLabel,\r\n  FormMessage,\r\n} from \"@/components/ui/form\";\r\nimport { ComponentProps } from \"react\";\r\nimport { Slider } from \"@/components/ui/slider\";\r\n\r\ntype TFormSlider<\r\n  TFieldValues extends FieldValues = FieldValues,\r\n  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>\r\n> = {\r\n  name: TFieldName;\r\n  control: Control<TFieldValues>;\r\n  label?: string | React.ReactNode;\r\n  formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;\r\n  onChangeCallBack?: (e: number[]) => void;\r\n} & Omit<ComponentProps<typeof Slider>, \"onChange\" | \"value\">;\r\n\r\nexport const FormSlider = <\r\n  TFieldValues extends FieldValues = FieldValues,\r\n  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>\r\n>({\r\n  formLabelProps,\r\n  name,\r\n  control,\r\n  label,\r\n  step = 1,\r\n  onChangeCallBack,\r\n  ...props\r\n}: TFormSlider<TFieldValues, TFieldName>) => {\r\n  return (\r\n    <FormField\r\n      control={control}\r\n      name={name}\r\n      render={({ field: { onChange, value, ...fieldProps } }) => {\r\n        // Convert the value to a number to ensure type safety\r\n        const numericValue = typeof value === \"number\" ? value : Number(value);\r\n\r\n        return (\r\n          <FormItem>\r\n            {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}\r\n            <FormControl>\r\n              <Slider\r\n                {...fieldProps}\r\n                {...props}\r\n                step={step}\r\n                value={[numericValue]}\r\n                onValueChange={(values) => {\r\n                  onChangeCallBack?.(values);\r\n                  onChange(values[0]);\r\n                }}\r\n              />\r\n            </FormControl>\r\n            <FormMessage />\r\n          </FormItem>\r\n        );\r\n      }}\r\n    />\r\n  );\r\n};\r\n",
+      "path": "block/form/form-slider.tsx",
+      "target": "components/block/form/form-slider.tsx"
+    }
+  ]
+}

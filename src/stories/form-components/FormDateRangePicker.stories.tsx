@@ -5,10 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, FieldValues } from "react-hook-form";
 import { useState } from "react";
 
-import { FormDateRangePicker } from "@/components/form/form-date-range-picker";
+import { FormDateRangePicker } from "../../../registry/block/form/form-date-range-picker";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
 
 // Mock control object for story args
 const mockControl = {} as Control<FieldValues>;
@@ -343,6 +343,11 @@ const form = useForm({
  * - Displays validation errors
  * - Supports custom date formats
  * - Customizable placeholder
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-date-range-picker
+ * ```
  *
  * ## Date Format Note
  * The component returns JavaScript Date objects by default, not strings. When you access the form values

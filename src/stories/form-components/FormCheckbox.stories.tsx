@@ -5,10 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, FieldValues } from "react-hook-form";
 import React from "react";
 
-import { FormCheckbox } from "@/components/form/form-checkbox";
+import { FormCheckbox } from "../../../registry/block/form/form-checkbox";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
 
 // Mock control object for story args
 const mockControl = {} as Control<FieldValues>;
@@ -23,6 +23,11 @@ type FormCheckboxProps = React.ComponentProps<typeof FormCheckbox>;
  * - Displays validation errors
  * - Supports custom descriptions and labels
  * - Customizable container styling
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-checkbox
+ * ```
  *
  * ## Usage with React Hook Form
  * ```tsx

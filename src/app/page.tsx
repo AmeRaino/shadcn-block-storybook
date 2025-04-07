@@ -1,7 +1,7 @@
 "use client";
-import { MyButton } from "@/components/base-component/my-button";
-import { MyComboboxTriggerLabel } from "@/components/base-component/my-combobox";
-import { MyIconfy } from "@/components/base-component/my-icon";
+import { MyButton } from "../../registry/block/base-component/my-button";
+import { MyComboboxTriggerLabel } from "../../registry/block/base-component/my-combobox";
+import { MyIconfy } from "../../registry/block/base-component/my-icon";
 import {
   FormCheckbox,
   FormDateRangePicker,
@@ -10,13 +10,13 @@ import {
   FormSwitch,
   FormTextArea,
   FormVirtualComboboxAsync,
-} from "@/components/form";
-import { FormCombobox } from "@/components/form/form-combobox";
-import { FormSlider } from "@/components/form/form-slider";
+} from "../../registry/block/form";
+import { FormCombobox } from "../../registry/block/form/form-combobox";
+import { FormSlider } from "../../registry/block/form/form-slider";
 
 import { Form } from "@/components/ui/form";
 import { useCatalogueProduct } from "@/hooks/catalogue/useCatalogueProduct";
-import { commonIcon } from "@/shared/common-icon";
+import { commonIcon } from "../../registry/shared/common-icon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { z } from "zod";

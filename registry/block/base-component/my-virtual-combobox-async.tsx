@@ -18,7 +18,7 @@ import { commonIcon } from "@/shared/common-icon";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import * as React from "react";
 import { ComponentProps, useEffect, useMemo } from "react";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { MyIconfy } from "./my-icon";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useBoolean } from "@/hooks/useBoolean";

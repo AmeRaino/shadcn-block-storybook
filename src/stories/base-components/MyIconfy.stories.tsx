@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { MyIconfy } from "@/components/base-component/my-icon";
-import { commonIcon } from "@/shared/common-icon";
+import { MyIconfy } from "../../../registry/block/base-component/my-icon";
+import { commonIcon } from "../../../registry/shared/common-icon";
 
 /**
  * `MyIconfy` is a versatile icon component that wraps around the Iconify library.
@@ -10,6 +10,11 @@ import { commonIcon } from "@/shared/common-icon";
  * - Size variants (sm, md, lg)
  * - Color variants (primary, secondary, white, danger)
  * - Supports all Iconify icons
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add my-icon
+ * ```
  *
  * ## Usage
  * ```tsx

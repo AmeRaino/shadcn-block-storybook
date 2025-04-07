@@ -6,15 +6,15 @@ import { Control, FieldValues } from "react-hook-form";
 import useSet from "@/hooks/useSet";
 import React from "react";
 
-import { FormCombobox } from "@/components/form/form-combobox";
+import { FormCombobox } from "../../../registry/block/form/form-combobox";
 import {
   MyCombobox,
   MyComboboxTriggerLabel,
-} from "@/components/base-component/my-combobox";
+} from "../../../registry/block/base-component/my-combobox";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
-import { MyIconfy } from "@/components/base-component/my-icon";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
+import { MyIconfy } from "../../../registry/block/base-component/my-icon";
 
 // Sample data for the combobox component
 type JobOption = {
@@ -721,6 +721,11 @@ const BaseMultiComboboxExample = () => {
  * - Supports single and multiple selection modes
  * - Searchable dropdown with customizable filtering
  * - Custom rendering of options and trigger
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-combobox
+ * ```
  *
  * ## Usage with React Hook Form
  * ```tsx

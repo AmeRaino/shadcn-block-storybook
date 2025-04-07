@@ -5,11 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, FieldValues } from "react-hook-form";
 import React from "react";
 
-import { FormSelect } from "@/components/form/form-select";
+import { FormSelect } from "../../../registry/block/form/form-select";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
-import { MyIconfy } from "@/components/base-component/my-icon";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
+import { MyIconfy } from "../../../registry/block/base-component/my-icon";
 
 // Sample data for the select component
 type Option = {
@@ -421,6 +421,11 @@ const DisabledFormSelect = () => {
  * - Displays validation errors
  * - Customizable option mapping
  * - Custom rendering of options
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-select
+ * ```
  *
  * ## Usage with React Hook Form
  * ```tsx

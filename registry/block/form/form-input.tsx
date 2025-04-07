@@ -10,11 +10,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ChangeEvent, ComponentProps } from "react";
-import { Textarea } from "../ui/textarea";
-import { cn } from "@/lib/utils";
+import { ComponentProps } from "react";
+import { MyInput } from "../base-component/my-input";
 
-type TFormTextArea<
+type TFormInput<
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = {
@@ -22,21 +21,20 @@ type TFormTextArea<
   control: Control<TFieldValues>;
   label?: string | React.ReactNode;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
-  onChangeCallBack?: (e: ChangeEvent<HTMLTextAreaElement>) => void | string;
-} & Omit<ComponentProps<typeof Textarea>, "onChange" | "value">;
+  onChangeCallBack?: (e: React.ChangeEvent<HTMLInputElement>) => void | string;
+} & Omit<ComponentProps<typeof MyInput>, "onChange" | "value">;
 
-export const FormTextArea = <
+export const FormInput = <
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  className,
   formLabelProps,
   name,
   control,
   label,
   onChangeCallBack,
   ...props
-}: TFormTextArea<TFieldValues, TFieldName>) => {
+}: TFormInput<TFieldValues, TFieldName>) => {
   return (
     <FormField
       control={control}
@@ -45,11 +43,7 @@ export const FormTextArea = <
         <FormItem>
           {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
           <FormControl>
-            <Textarea
-              className={cn(
-                "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aria-invalid:text-destructive aria-invalid:bg-[#FEF2F2]",
-                className
-              )}
+            <MyInput
               {...fieldProps}
               {...props}
               onChange={(e) => {
@@ -58,7 +52,7 @@ export const FormTextArea = <
                   return;
                 }
 
-                const formatValue = onChangeCallBack?.(e);
+                const formatValue = onChangeCallBack(e);
                 onChange(typeof formatValue === "string" ? formatValue : e);
               }}
             />

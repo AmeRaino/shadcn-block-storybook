@@ -10,11 +10,11 @@ import {
 } from "@tanstack/react-query";
 import React from "react";
 
-import { FormVirtualComboboxAsync } from "@/components/form/form-virtual-combobox-async";
-import { MyVirtualComboboxAsync } from "@/components/base-component/my-virtual-combobox-async";
+import { FormVirtualComboboxAsync } from "../../../registry/block/form/form-virtual-combobox-async";
+import { MyVirtualComboboxAsync } from "../../../registry/block/base-component/my-virtual-combobox-async";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
 import useSet from "@/hooks/useSet";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
@@ -661,6 +661,11 @@ function BasicFormExample() {
  * - Infinite scrolling with React Query
  * - Async data loading
  * - Supports single and multiple selection modes
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-virtual-combobox-async
+ * ```
  *
  * ## Creating a Custom Hook for Virtual Combobox
  *

@@ -1,0 +1,15 @@
+{
+  "name": "my-input",
+  "type": "registry:block",
+  "registryDependencies": [
+    "input"
+  ],
+  "files": [
+    {
+      "type": "registry:block",
+      "content": "import * as React from \"react\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\nimport { Input } from \"@/components/ui/input\";\r\n\r\ntype TProps = {\r\n  prefix?: React.ReactNode;\r\n  suffix?: React.ReactNode;\r\n} & Omit<React.ComponentProps<typeof Input>, \"prefix\" | \"ref\">;\r\n\r\nfunction MyInput({ className, suffix, prefix, ...props }: TProps) {\r\n  return (\r\n    <div className=\"relative\">\r\n      <Input\r\n        className={cn(\r\n          \"aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aria-invalid:text-destructive aria-invalid:bg-[#FEF2F2]\",\r\n          \"peer\",\r\n          prefix && \"ps-9\",\r\n          suffix && \"pe-9\",\r\n          className\r\n        )}\r\n        {...props}\r\n      />\r\n      {prefix && (\r\n        <span className=\"[&>svg]:size-4 text-muted-foreground pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-sm peer-disabled:opacity-50\">\r\n          {prefix}\r\n        </span>\r\n      )}\r\n      {suffix && (\r\n        <span className=\"[&>svg]:size-4 text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50\">\r\n          {suffix}\r\n        </span>\r\n      )}\r\n    </div>\r\n  );\r\n}\r\n\r\nexport { MyInput };\r\n",
+      "path": "block/base-component/my-input.tsx",
+      "target": "components/block/base-component/my-input.tsx"
+    }
+  ]
+}

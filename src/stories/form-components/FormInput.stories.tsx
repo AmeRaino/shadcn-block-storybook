@@ -5,11 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, FieldValues } from "react-hook-form";
 import React from "react";
 
-import { FormInput } from "@/components/form/form-input";
+import { FormInput } from "../../../registry/block/form/form-input";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
-import { MyIconfy } from "@/components/base-component/my-icon";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
+import { MyIconfy } from "../../../registry/block/base-component/my-icon";
 
 // Mock control object for story args
 const mockControl = {} as Control<FieldValues>;
@@ -23,6 +23,11 @@ type FormInputProps = React.ComponentProps<typeof FormInput>;
  * - Fully integrated with React Hook Form
  * - Displays validation errors
  * - Supports all features of the base MyInput component
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-input
+ * ```
  *
  * ## Usage with React Hook Form
  * ```tsx

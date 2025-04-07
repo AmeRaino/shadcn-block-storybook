@@ -1,0 +1,20 @@
+{
+  "name": "my-icon",
+  "type": "registry:block",
+  "dependencies": [
+    "iconify-icon"
+  ],
+  "files": [
+    {
+      "type": "registry:block",
+      "content": "\"use client\";\r\n\r\nimport * as React from \"react\";\r\nimport {\r\n  Icon,\r\n  IconifyIconHTMLElement,\r\n  IconifyIconProps,\r\n} from \"@iconify-icon/react\";\r\nimport { cva, type VariantProps } from \"class-variance-authority\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\n\r\nconst myIconVariants = cva(\"inline-flex\", {\r\n  variants: {\r\n    variant: {\r\n      primary: \"text-primary\",\r\n      secondary: \"text-secondary\",\r\n      white: \"text-white\",\r\n      danger: \"text-red-500\",\r\n    },\r\n    size: {\r\n      sm: \"h-4 w-4\", // size small\r\n      md: \"h-6 w-6\", // size medium\r\n      lg: \"h-8 w-8\", // size large\r\n    },\r\n  },\r\n  defaultVariants: {\r\n    // variant: \"primary\",\r\n    size: \"md\",\r\n  },\r\n});\r\n\r\nexport interface IconfyProps\r\n  extends Omit<IconifyIconProps, \"size\" | \"ref\">,\r\n    VariantProps<typeof myIconVariants> {}\r\n\r\nconst MyIconfy = React.forwardRef<IconifyIconHTMLElement, IconfyProps>(\r\n  ({ className, variant, size, icon, ...props }, ref) => {\r\n    return (\r\n      <Icon\r\n        icon={icon}\r\n        ref={ref}\r\n        height=\"none\"\r\n        className={cn(myIconVariants({ variant, size, className }))}\r\n        {...props}\r\n      />\r\n    );\r\n  }\r\n);\r\n\r\nMyIconfy.displayName = \"MyIconfy\";\r\n\r\nexport { MyIconfy, myIconVariants };\r\n",
+      "path": "block/base-component/my-icon.tsx",
+      "target": "components/block/base-component/my-icon.tsx"
+    },
+    {
+      "content": "export const commonIcon = {\r\n  add: \"ic:round-add\",\r\n  edit: \"ic:round-edit\",\r\n  delete: \"ic:round-delete\",\r\n  filter: \"ic:round-filter-list\",\r\n  sort: \"ic:round-sort\",\r\n  close: \"ic:round-close\",\r\n  check: \"lucide:check\",\r\n  save: \"ic:round-save\",\r\n  cancel: \"ic:round-cancel\",\r\n  checkCircle: \"ic:round-check-circle\",\r\n  calendar: \"lucide:calendar\",\r\n  chevronDown: \"lucide:chevron-down\",\r\n  chevronUp: \"lucide:chevron-up\",\r\n  chevronLeft: \"lucide:chevron-left\",\r\n  chevronRight: \"lucide:chevron-right\",\r\n  loader: \"lucide:loader-circle\",\r\n  searchIcon: \"lucide:search\",\r\n  x: \"lucide:x\",\r\n  circle: \"lucide:circle\",\r\n  sparkles: \"lucide:sparkles\",\r\n  circleAlert: \"lucide:circle-alert\",\r\n};\r\n",
+      "path": "shared/common-icon.tsx",
+      "target": "components/shared/common-icon.tsx"
+    }
+  ]
+}

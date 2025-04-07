@@ -5,8 +5,8 @@ import { DayPicker } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { MyIconfy } from "@/components/base-component/my-icon";
-import { commonIcon } from "@/shared/common-icon";
+import { MyIconfy } from "../../../registry/block/base-component/my-icon";
+import { commonIcon } from "../../../registry/shared/common-icon";
 function Calendar({
   className,
   classNames,

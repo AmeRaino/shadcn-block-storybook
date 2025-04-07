@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { ComponentProps } from "react";
-import { MyCheckbox } from "@/components/base-component/my-checkbox";
+import { MyCheckbox } from "../base-component/my-checkbox";
 import { cn } from "@/lib/utils";
 
 type TFormCheckbox<

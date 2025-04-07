@@ -18,7 +18,7 @@ import { commonIcon } from "@/shared/common-icon";
 import * as React from "react";
 import { ComponentProps, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { MyIconfy } from "@/components/base-component/my-icon";
+import { MyIconfy } from "./my-icon";
 
 type TSelectMode = "single" | "multiple";
 

@@ -5,10 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, FieldValues } from "react-hook-form";
 import { useState } from "react";
 
-import { FormTextArea } from "@/components/form/form-textarea";
+import { FormTextArea } from "../../../registry/block/form/form-textarea";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
 
 // Mock control object for story args
 const mockControl = {} as Control<FieldValues>;
@@ -206,6 +206,11 @@ const form = useForm({
  * - Displays validation errors
  * - Supports placeholder and description
  * - Optional character count display
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-textarea
+ * ```
  *
  * ## Usage with React Hook Form
  * ```tsx

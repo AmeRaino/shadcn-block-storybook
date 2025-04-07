@@ -11,9 +11,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { MyVirtualComboboxAsync } from "@/components/base-component/my-virtual-combobox-async";
+import { MyCombobox } from "../base-component/my-combobox";
 
-type TFormVirtualComboboxAsync<
+type TFormCombobox<
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData,
@@ -25,7 +25,7 @@ type TFormVirtualComboboxAsync<
   label?: string;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
 } & Omit<
-  ComponentProps<typeof MyVirtualComboboxAsync<TData, TValue, TLabel>>,
+  ComponentProps<typeof MyCombobox<TData, TValue, TLabel>>,
   "selectedState"
 >;
 
@@ -36,7 +36,7 @@ const valueToSet = <T,>(value: unknown): Set<T> => {
   return new Set(Array.isArray(value) ? value : [value]);
 };
 
-export const FormVirtualComboboxAsync = <
+export const FormCombobox = <
   TData,
   TValue extends keyof TData = keyof TData,
   TLabel extends keyof TData = keyof TData,
@@ -48,7 +48,6 @@ export const FormVirtualComboboxAsync = <
   label,
   formLabelProps,
   triggerProps,
-  height = "400px",
   placeholder = "",
   searchPlaceholder = "Tìm kiếm...",
   emptyMessage = "Không có dữ liệu",
@@ -57,23 +56,14 @@ export const FormVirtualComboboxAsync = <
     value: "Id" as TValue,
     label: "Name" as TLabel,
   },
+  fieldFilter,
   allowClear = true,
   loading = false,
   truncate = 3,
-  badgeProps,
-  infiniteQueryProps,
-  openControllerProps,
   renderLabel,
   onChangeCallBack,
-  renderTrigger,
   mode = "single",
-}: TFormVirtualComboboxAsync<
-  TData,
-  TValue,
-  TLabel,
-  TFieldValues,
-  TFieldName
->) => {
+}: TFormCombobox<TData, TValue, TLabel, TFieldValues, TFieldName>) => {
   return (
     <FormField
       control={control}
@@ -124,24 +114,20 @@ export const FormVirtualComboboxAsync = <
             {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
             <FormControl>
               <div className="group">
-                <MyVirtualComboboxAsync
+                <MyCombobox
                   selectedState={selectedState}
-                  openControllerProps={openControllerProps}
-                  height={height}
                   triggerProps={triggerProps}
                   placeholder={placeholder}
                   searchPlaceholder={searchPlaceholder}
                   emptyMessage={emptyMessage}
                   options={options}
                   select={select}
+                  fieldFilter={fieldFilter}
                   allowClear={allowClear}
                   loading={loading}
                   truncate={truncate}
-                  badgeProps={badgeProps}
-                  infiniteQueryProps={infiniteQueryProps}
                   renderLabel={renderLabel}
                   onChangeCallBack={onChangeCallBack}
-                  renderTrigger={renderTrigger}
                   mode={mode}
                 />
               </div>

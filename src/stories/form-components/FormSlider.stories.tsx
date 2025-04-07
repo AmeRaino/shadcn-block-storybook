@@ -5,10 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, FieldValues } from "react-hook-form";
 import { useState } from "react";
 
-import { FormSlider } from "@/components/form/form-slider";
+import { FormSlider } from "../../../registry/block/form/form-slider";
 import { Form } from "@/components/ui/form";
-import { commonIcon } from "@/shared/common-icon";
-import { MyButton } from "@/components/base-component/my-button";
+import { commonIcon } from "../../../registry/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
 
 // Mock control object for story args
 const mockControl = {} as Control<FieldValues>;
@@ -341,6 +341,11 @@ const form = useForm({
  * - Supports custom min, max, and step values
  * - Optional marks display
  * - Customizable value display
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add form-slider
+ * ```
  *
  * ## Usage with React Hook Form
  * ```tsx

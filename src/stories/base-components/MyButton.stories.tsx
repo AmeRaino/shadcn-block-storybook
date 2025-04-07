@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
-import { MyButton } from "@/components/base-component/my-button";
-import { commonIcon } from "@/shared/common-icon";
+import { MyButton } from "../../../registry/block/base-component/my-button";
+import { commonIcon } from "../../../registry/shared/common-icon";
 
 /**
  * `MyButton` is a versatile button component that supports various styles, sizes, and effects.
@@ -13,6 +13,11 @@ import { commonIcon } from "@/shared/common-icon";
  * - Special effects (expandIcon, ringHover, shine, underline, etc.)
  * - Icon support with left/right placement
  * - Loading state
+ *
+ * ## Installation
+ * ```bash
+ * npx shadcn@latest add my-button
+ * ```
  *
  * ## Usage
  * ```tsx

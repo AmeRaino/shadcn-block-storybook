@@ -14,7 +14,7 @@ const myIconVariants = cva("inline-flex", {
   variants: {
     variant: {
       primary: "text-primary",
-      secondary: "text-tertiary",
+      secondary: "text-secondary",
       white: "text-white",
       danger: "text-red-500",
     },

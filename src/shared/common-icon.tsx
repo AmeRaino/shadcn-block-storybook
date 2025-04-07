@@ -18,4 +18,6 @@ export const commonIcon = {
   searchIcon: "lucide:search",
   x: "lucide:x",
   circle: "lucide:circle",
+  sparkles: "lucide:sparkles",
+  circleAlert: "lucide:circle-alert",
 };

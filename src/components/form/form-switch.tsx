@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { ComponentProps } from "react";
+import { cn } from "@/lib/utils";
 
 type TFormSwitch<
   TFieldValues extends FieldValues = FieldValues,
@@ -39,6 +40,9 @@ export const FormSwitch = <
   onCheckedChangeCallBack,
   ...props
 }: TFormSwitch<TFieldValues, TFieldName>) => {
+  const { className: containerClassName, ...restContainerProps } =
+    containerProps || {};
+
   return (
     <FormField
       control={control}
@@ -46,7 +50,10 @@ export const FormSwitch = <
       render={({ field: { value, onChange, ...fieldProps } }) => (
         <FormItem>
           {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
-          <div {...containerProps}>
+          <div
+            className={cn("flex items-center gap-2", containerClassName)}
+            {...restContainerProps}
+          >
             <FormControl>
               <Switch
                 {...props}

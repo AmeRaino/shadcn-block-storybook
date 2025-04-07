@@ -13,6 +13,7 @@ import {
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { ComponentProps } from "react";
 import { MyCheckbox } from "@/components/base-component/my-checkbox";
+import { cn } from "@/lib/utils";
 
 type TFormCheckbox<
   TFieldValues extends FieldValues = FieldValues,
@@ -40,6 +41,9 @@ export const FormCheckbox = <
   onCheckedChangeCallBack,
   ...props
 }: TFormCheckbox<TFieldValues, TFieldName>) => {
+  const { className: containerClassName, ...restContainerProps } =
+    containerProps || {};
+
   return (
     <FormField
       control={control}
@@ -47,7 +51,10 @@ export const FormCheckbox = <
       render={({ field: { value, onChange, ...fieldProps } }) => (
         <FormItem>
           {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
-          <div {...containerProps}>
+          <div
+            className={cn("flex items-center gap-2", containerClassName)}
+            {...restContainerProps}
+          >
             <FormControl className={containerProps?.className}>
               <MyCheckbox
                 {...props}

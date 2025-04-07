@@ -40,23 +40,29 @@ export const FormSlider = <
     <FormField
       control={control}
       name={name}
-      render={({ field: { onChange, ...fieldProps } }) => (
-        <FormItem>
-          {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
-          <FormControl>
-            <Slider
-              {...fieldProps}
-              {...props}
-              step={step}
-              onValueChange={(e) => {
-                onChangeCallBack?.(e);
-                onChange(e);
-              }}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+      render={({ field: { onChange, value, ...fieldProps } }) => {
+        // Convert the value to a number to ensure type safety
+        const numericValue = typeof value === "number" ? value : Number(value);
+
+        return (
+          <FormItem>
+            {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+            <FormControl>
+              <Slider
+                {...fieldProps}
+                {...props}
+                step={step}
+                value={[numericValue]}
+                onValueChange={(values) => {
+                  onChangeCallBack?.(values);
+                  onChange(values[0]);
+                }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };

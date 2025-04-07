@@ -346,7 +346,7 @@ const form = useForm({
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-date-range-picker
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-date-range-picker.json
  * ```
  *
  * ## Date Format Note

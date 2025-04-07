@@ -664,7 +664,7 @@ function BasicFormExample() {
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-virtual-combobox-async
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-virtual-combobox-async.json
  * ```
  *
  * ## Creating a Custom Hook for Virtual Combobox

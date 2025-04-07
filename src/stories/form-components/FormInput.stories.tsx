@@ -26,7 +26,7 @@ type FormInputProps = React.ComponentProps<typeof FormInput>;
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-input
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-input.json
  * ```
  *
  * ## Usage with React Hook Form

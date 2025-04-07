@@ -369,7 +369,7 @@ export const CustomContainer: StoryObj<Meta<typeof FormSwitch>> = {
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-switch
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-switch.json
  * ```
  *
  * ## Usage with React Hook Form

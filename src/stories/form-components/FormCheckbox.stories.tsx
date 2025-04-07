@@ -26,7 +26,7 @@ type FormCheckboxProps = React.ComponentProps<typeof FormCheckbox>;
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-checkbox
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-checkbox.json
  * ```
  *
  * ## Usage with React Hook Form

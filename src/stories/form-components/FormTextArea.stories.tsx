@@ -209,7 +209,7 @@ const form = useForm({
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-textarea
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-textarea.json
  * ```
  *
  * ## Usage with React Hook Form

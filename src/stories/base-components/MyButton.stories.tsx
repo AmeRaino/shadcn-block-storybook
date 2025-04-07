@@ -16,7 +16,7 @@ import { commonIcon } from "../../../registry/shared/common-icon";
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add my-button
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/my-button.json
  * ```
  *
  * ## Usage

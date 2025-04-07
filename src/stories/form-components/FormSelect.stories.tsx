@@ -424,7 +424,7 @@ const DisabledFormSelect = () => {
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-select
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-select.json
  * ```
  *
  * ## Usage with React Hook Form

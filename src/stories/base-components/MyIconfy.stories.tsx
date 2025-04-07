@@ -13,7 +13,7 @@ import { commonIcon } from "../../../registry/shared/common-icon";
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add my-icon
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/my-icon.json
  * ```
  *
  * ## Usage

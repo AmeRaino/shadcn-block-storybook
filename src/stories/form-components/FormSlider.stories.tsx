@@ -344,7 +344,7 @@ const form = useForm({
  *
  * ## Installation
  * ```bash
- * npx shadcn@latest add form-slider
+ * npx shadcn@latest add https://story-book-comp-tw-v4.vercel.app/registry/form-slider.json
  * ```
  *
  * ## Usage with React Hook Form

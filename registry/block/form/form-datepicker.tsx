@@ -34,6 +34,7 @@ type TFormDatePicker<
   placeholder?: string;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
   onChangeCallBack?: (e: Date | undefined) => void;
+  required?: boolean;
 } & Omit<ComponentProps<typeof DayPicker>, "selected" | "onSelect" | "mode">;
 
 export const FormDatePicker = <
@@ -46,6 +47,7 @@ export const FormDatePicker = <
   label,
   placeholder = "Chọn ngày",
   onChangeCallBack,
+  required,
   ...props
 }: TFormDatePicker<TFieldValues, TFieldName>) => {
   return (
@@ -54,7 +56,12 @@ export const FormDatePicker = <
       name={name}
       render={({ field: { value, onChange, ...fieldProps } }) => (
         <FormItem>
-          {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+          {label && (
+            <FormLabel {...formLabelProps}>
+              {label}
+              {required && <span className="text-destructive">*</span>}
+            </FormLabel>
+          )}
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>

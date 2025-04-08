@@ -1,5 +1,6 @@
 "use client";
 
+import { MyFloatingLabelInput } from "../../../registry/block/base-component/my-input";
 import { MyVirtualComboboxAsync } from "../../../registry/block/base-component/my-virtual-combobox-async";
 import { useCatalogueProduct } from "@/hook/catalogue/useCatalogueProduct";
 
@@ -24,6 +25,8 @@ export default function AsyncMultiSelectPage() {
             <label className="block text-sm font-medium text-gray-700">
               Select Products
             </label>
+
+            <MyFloatingLabelInput label="Select Products" />
 
             <MyVirtualComboboxAsync
               select={{ value: "id", label: "title" }}

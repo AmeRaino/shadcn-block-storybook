@@ -26,6 +26,7 @@ type TFormCheckbox<
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
   containerProps?: ComponentProps<"div">;
   onCheckedChangeCallBack?: (e: CheckedState) => void | CheckedState;
+  required?: boolean;
 } & Omit<ComponentProps<typeof MyCheckbox>, "onChange" | "checked">;
 
 export const FormCheckbox = <
@@ -39,6 +40,7 @@ export const FormCheckbox = <
   control,
   containerProps,
   onCheckedChangeCallBack,
+  required,
   ...props
 }: TFormCheckbox<TFieldValues, TFieldName>) => {
   const { className: containerClassName, ...restContainerProps } =
@@ -50,7 +52,12 @@ export const FormCheckbox = <
       name={name}
       render={({ field: { value, onChange, ...fieldProps } }) => (
         <FormItem>
-          {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+          {label && (
+            <FormLabel {...formLabelProps}>
+              {label}
+              {required && <span className="text-destructive">*</span>}
+            </FormLabel>
+          )}
           <div
             className={cn("flex items-center gap-2", containerClassName)}
             {...restContainerProps}

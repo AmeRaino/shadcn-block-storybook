@@ -25,6 +25,7 @@ type TFormSwitch<
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
   containerProps?: ComponentProps<"div">;
   onCheckedChangeCallBack?: (e: boolean) => void | boolean;
+  required?: boolean;
 } & Omit<ComponentProps<typeof Switch>, "onChange" | "checked">;
 
 export const FormSwitch = <
@@ -38,6 +39,7 @@ export const FormSwitch = <
   control,
   containerProps,
   onCheckedChangeCallBack,
+  required,
   ...props
 }: TFormSwitch<TFieldValues, TFieldName>) => {
   const { className: containerClassName, ...restContainerProps } =
@@ -49,7 +51,12 @@ export const FormSwitch = <
       name={name}
       render={({ field: { value, onChange, ...fieldProps } }) => (
         <FormItem>
-          {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+          {label && (
+            <FormLabel {...formLabelProps}>
+              {label}
+              {required && <span className="text-destructive">*</span>}
+            </FormLabel>
+          )}
           <div
             className={cn("flex items-center gap-2", containerClassName)}
             {...restContainerProps}

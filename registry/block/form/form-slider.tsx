@@ -22,6 +22,7 @@ type TFormSlider<
   label?: string | React.ReactNode;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
   onChangeCallBack?: (e: number[]) => void;
+  required?: boolean;
 } & Omit<ComponentProps<typeof Slider>, "onChange" | "value">;
 
 export const FormSlider = <
@@ -34,6 +35,7 @@ export const FormSlider = <
   label,
   step = 1,
   onChangeCallBack,
+  required,
   ...props
 }: TFormSlider<TFieldValues, TFieldName>) => {
   return (
@@ -46,7 +48,12 @@ export const FormSlider = <
 
         return (
           <FormItem>
-            {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+            {label && (
+              <FormLabel {...formLabelProps}>
+                {label}
+                {required && <span className="text-destructive">*</span>}
+              </FormLabel>
+            )}
             <FormControl>
               <Slider
                 {...fieldProps}

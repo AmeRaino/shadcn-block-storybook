@@ -151,61 +151,6 @@ const DefaultStory = () => {
   );
 };
 
-const ValidationStory = () => {
-  const formSchema = z.object({
-    input: z.string().min(3, "Input must be at least 3 characters"),
-  });
-
-  type FormValues = z.infer<typeof formSchema>;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      input: "",
-    },
-  });
-
-  const [submittedValues, setSubmittedValues] =
-    React.useState<FormValues | null>(null);
-
-  const handleSubmit = (data: FormValues) => {
-    console.log(data);
-    setSubmittedValues(data);
-  };
-
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="w-[350px] space-y-4 p-4 border rounded-md bg-white"
-      >
-        <FormInput
-          name="input"
-          label="Username"
-          control={form.control}
-          placeholder="Enter your username (min 3 characters)"
-        />
-        <MyButton
-          type="submit"
-          icon={commonIcon.checkCircle}
-          iconPlacement="right"
-        >
-          Submit
-        </MyButton>
-
-        {submittedValues && (
-          <div className="mt-4 p-2 bg-slate-100 rounded-md">
-            <p className="font-medium text-sm">Submitted Values:</p>
-            <pre className="text-xs overflow-auto">
-              {JSON.stringify(submittedValues, null, 2)}
-            </pre>
-          </div>
-        )}
-      </form>
-    </Form>
-  );
-};
-
 const DisabledStory = () => {
   return (
     <FormWrapper>
@@ -222,7 +167,7 @@ const DisabledStory = () => {
   );
 };
 
-const WithIconStory = () => {
+const WithPrefixStory = () => {
   return (
     <FormWrapper>
       {(control) => (
@@ -324,32 +269,6 @@ export const Default: Story = {
   },
 };
 
-export const WithValidation: Story = {
-  args: {
-    name: "input",
-    label: "Username",
-    placeholder: "Enter your username (min 3 characters)",
-    control: mockControl,
-  } as FormInputProps,
-  render: () => <ValidationStory />,
-  parameters: {
-    docs: {
-      story: { inline: true },
-      source: {
-        code: `
-<FormInput
-  name="input"
-  label="Username"
-  control={form.control}
-  placeholder="Enter your username (min 3 characters)"
-/>`,
-        language: "tsx",
-        type: "code",
-      },
-    },
-  },
-};
-
 export const Disabled: Story = {
   args: {
     name: "input",
@@ -378,14 +297,14 @@ export const Disabled: Story = {
   },
 };
 
-export const WithIcon: Story = {
+export const WithPrefix: Story = {
   args: {
     name: "input",
     label: "Search",
     placeholder: "Search...",
     control: mockControl,
   } as FormInputProps,
-  render: () => <WithIconStory />,
+  render: () => <WithPrefixStory />,
   parameters: {
     docs: {
       story: { inline: true },

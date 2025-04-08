@@ -24,6 +24,7 @@ type TFormCombobox<
   control: Control<TFieldValues>;
   label?: string;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
+  required?: boolean;
 } & Omit<
   ComponentProps<typeof MyCombobox<TData, TValue, TLabel>>,
   "selectedState"
@@ -63,6 +64,7 @@ export const FormCombobox = <
   renderLabel,
   onChangeCallBack,
   mode = "single",
+  required,
 }: TFormCombobox<TData, TValue, TLabel, TFieldValues, TFieldName>) => {
   return (
     <FormField
@@ -111,7 +113,12 @@ export const FormCombobox = <
 
         return (
           <FormItem className="flex flex-col">
-            {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+            {label && (
+              <FormLabel {...formLabelProps}>
+                {label}
+                {required && <span className="text-destructive">*</span>}
+              </FormLabel>
+            )}
             <FormControl>
               <div className="group">
                 <MyCombobox

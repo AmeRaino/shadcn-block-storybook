@@ -44,6 +44,7 @@ type TFormDateRangePicker<
   placeholder?: string;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
   onChangeCallBack?: (e: DateRange | undefined) => void;
+  required?: boolean;
 } & Omit<ComponentProps<typeof DayPicker>, "selected" | "onSelect" | "mode">;
 
 export const FormDateRangePicker = <
@@ -56,6 +57,7 @@ export const FormDateRangePicker = <
   label,
   placeholder = "Chọn ngày",
   onChangeCallBack,
+  required,
   ...props
 }: TFormDateRangePicker<TFieldValues, TFieldName>) => {
   const [fromDateName, toDateName] = names;
@@ -74,6 +76,7 @@ export const FormDateRangePicker = <
         label={label}
         placeholder={placeholder}
         formLabelProps={formLabelProps}
+        required={required}
         onChangeCallBack={(range) => {
           onChangeCallBack?.(range);
           setValue(fromDateName, range?.from as TFieldValues[TFieldName]);
@@ -96,6 +99,7 @@ type TFormDateRangePickerPortal = {
   placeholder?: string;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
   onChangeCallBack: (e: DateRange | undefined) => void;
+  required?: boolean;
 } & Omit<ComponentProps<typeof DayPicker>, "selected" | "onSelect" | "mode">;
 
 const FormDateRangePickerPortal = ({
@@ -105,6 +109,7 @@ const FormDateRangePickerPortal = ({
   label,
   placeholder = "Chọn ngày",
   onChangeCallBack,
+  required,
   ...props
 }: TFormDateRangePickerPortal) => {
   const form = useForm<z.infer<typeof dateRangerPickerPortalSchema>>({
@@ -128,7 +133,12 @@ const FormDateRangePickerPortal = ({
         name={"dateRange"}
         render={({ field: { value, onChange, ...fieldProps } }) => (
           <FormItem>
-            {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+            {label && (
+              <FormLabel {...formLabelProps}>
+                {label}
+                {required && <span className="text-destructive">*</span>}
+              </FormLabel>
+            )}
             <Popover
               onOpenChange={(open) => !open && form.trigger("dateRange")}
             >

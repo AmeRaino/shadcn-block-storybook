@@ -20,6 +20,7 @@ import { commonIcon } from "../../registry/lib/common-icon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { z } from "zod";
+import { FormFloatLabelInput } from "../../registry/block/form/form-float-label-input";
 
 const formSchema = z.object({
   input: z.string().min(1),
@@ -75,7 +76,23 @@ export default function Home() {
                 className="space-y-4"
               >
                 <div className="grid gap-4">
+                  <FormFloatLabelInput
+                    required
+                    label={
+                      <div className="inline-flex items-center gap-1">
+                        <span>Input</span>
+                        <MyIconfy icon="lucide:sparkles" size="sm" />
+                      </div>
+                    }
+                    control={form.control}
+                    name="input"
+                    placeholder="Enter input"
+                  />
+
                   <FormInput
+                    direction="horizontal"
+                    containerProps={{ className: "gap-10" }}
+                    required
                     label="Input"
                     control={form.control}
                     name="input"
@@ -83,6 +100,7 @@ export default function Home() {
                   />
 
                   <FormDateRangePicker
+                    required
                     label="Date"
                     control={form.control}
                     names={["fromDate", "toDate"]}
@@ -90,6 +108,7 @@ export default function Home() {
                   />
 
                   <FormSelect
+                    required
                     label="Select"
                     placeholder="Select"
                     control={form.control}
@@ -108,6 +127,7 @@ export default function Home() {
                   />
 
                   <FormCombobox
+                    required
                     label="Combobox"
                     placeholder="Select"
                     control={form.control}
@@ -143,6 +163,7 @@ export default function Home() {
                   />
 
                   <FormCombobox
+                    required
                     truncate={2}
                     label="Multi Combobox"
                     name="multiCombobox"
@@ -180,6 +201,7 @@ export default function Home() {
                   />
 
                   <FormVirtualComboboxAsync
+                    required
                     name="virtualCombobox"
                     control={form.control}
                     label="Virtual Combobox"
@@ -189,6 +211,7 @@ export default function Home() {
                   />
 
                   <FormVirtualComboboxAsync
+                    required
                     name="virtualComboboxMulti"
                     control={form.control}
                     label="Virtual Combobox Multi"
@@ -199,6 +222,7 @@ export default function Home() {
                   />
 
                   <FormTextArea
+                    required
                     label="Textarea"
                     control={form.control}
                     name="textarea"
@@ -206,12 +230,14 @@ export default function Home() {
                   />
 
                   <FormSlider
+                    required
                     label="Slider"
                     control={form.control}
                     name="slider"
                   />
 
                   <FormCheckbox
+                    required
                     containerProps={{
                       className: "inline-flex items-center gap-2",
                     }}
@@ -221,6 +247,7 @@ export default function Home() {
                   />
 
                   <FormSwitch
+                    required
                     containerProps={{
                       className: "inline-flex items-center gap-2",
                     }}

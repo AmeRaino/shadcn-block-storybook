@@ -23,6 +23,7 @@ type TFormTextArea<
   label?: string | React.ReactNode;
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
   onChangeCallBack?: (e: ChangeEvent<HTMLTextAreaElement>) => void | string;
+  required?: boolean;
 } & Omit<ComponentProps<typeof Textarea>, "onChange" | "value">;
 
 export const FormTextArea = <
@@ -35,6 +36,7 @@ export const FormTextArea = <
   control,
   label,
   onChangeCallBack,
+  required,
   ...props
 }: TFormTextArea<TFieldValues, TFieldName>) => {
   return (
@@ -43,7 +45,12 @@ export const FormTextArea = <
       name={name}
       render={({ field: { onChange, ...fieldProps } }) => (
         <FormItem>
-          {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+          {label && (
+            <FormLabel {...formLabelProps}>
+              {label}
+              {required && <span className="text-destructive">*</span>}
+            </FormLabel>
+          )}
           <FormControl>
             <Textarea
               className={cn(

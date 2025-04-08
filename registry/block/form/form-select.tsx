@@ -40,6 +40,7 @@ type TFormSelect<
   select?: TMapOption<TData>;
   renderLabel?: (option: TData) => string | React.ReactNode;
   onChangeCallBack?: (value: string) => void | string;
+  required?: boolean;
 } & Omit<SelectProps, "onValueChange" | "value">;
 
 export const FormSelect = <
@@ -61,6 +62,7 @@ export const FormSelect = <
   },
   renderLabel,
   onChangeCallBack,
+  required,
   ...props
 }: TFormSelect<TData, TFieldValues, TFieldName>) => {
   const { className, ...restTriggerProps } = triggerProps || {};
@@ -71,7 +73,12 @@ export const FormSelect = <
       name={name}
       render={({ field }) => (
         <FormItem>
-          {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+          {label && (
+            <FormLabel {...formLabelProps}>
+              {label}
+              {required && <span className="text-destructive">*</span>}
+            </FormLabel>
+          )}
           <Select
             {...props}
             onValueChange={(e) => {

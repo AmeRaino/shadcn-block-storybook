@@ -10,6 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 import { MyInput } from "../base-component/my-input";
 
@@ -20,32 +21,53 @@ type TFormInput<
   name: TFieldName;
   control: Control<TFieldValues>;
   label?: string | React.ReactNode;
+  direction?: "vertical" | "horizontal";
   formLabelProps?: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>;
+  containerProps?: React.ComponentPropsWithoutRef<"div">;
   onChangeCallBack?: (e: React.ChangeEvent<HTMLInputElement>) => void | string;
+  required?: boolean;
 } & Omit<ComponentProps<typeof MyInput>, "onChange" | "value">;
 
 export const FormInput = <
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  formLabelProps,
+  required,
   name,
   control,
   label,
+  direction = "vertical",
+  formLabelProps,
+  containerProps,
   onChangeCallBack,
   ...props
 }: TFormInput<TFieldValues, TFieldName>) => {
+  const { className: containerClassName, ...restContainerProps } =
+    containerProps || {};
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field: { onChange, ...fieldProps } }) => (
-        <FormItem>
-          {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
+        <FormItem
+          className={cn(
+            direction === "horizontal" && "flex gap-2",
+            containerClassName
+          )}
+          {...restContainerProps}
+        >
+          {label && (
+            <FormLabel {...formLabelProps}>
+              {label}
+              {required && <span className="text-destructive">*</span>}
+            </FormLabel>
+          )}
           <FormControl>
             <MyInput
               {...fieldProps}
               {...props}
+              containerProps={{ className: "flex-1" }}
               onChange={(e) => {
                 if (typeof onChangeCallBack !== "function") {
                   onChange(e);

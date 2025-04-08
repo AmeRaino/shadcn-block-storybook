@@ -77,6 +77,7 @@ export default function Home() {
               >
                 <div className="grid gap-4">
                   <FormFloatLabelInput
+                    float
                     required
                     label={
                       <div className="inline-flex items-center gap-1">

@@ -145,6 +145,7 @@ const DefaultStory = () => {
           label="Username"
           control={control}
           placeholder="Enter your username"
+          required
         />
       )}
     </FormWrapper>
@@ -161,6 +162,7 @@ const DisabledStory = () => {
           control={control}
           placeholder="You can't edit this"
           disabled
+          required
         />
       )}
     </FormWrapper>
@@ -177,6 +179,7 @@ const WithPrefixStory = () => {
           control={control}
           placeholder="Search..."
           prefix={<MyIconfy icon={commonIcon.searchIcon} size="sm" />}
+          required
         />
       )}
     </FormWrapper>
@@ -220,6 +223,7 @@ const NumberWithSuffixStory = () => {
           placeholder="0.00"
           type="number"
           suffix={<span>USD</span>}
+          required
         />
         <MyButton
           type="submit"
@@ -242,12 +246,86 @@ const NumberWithSuffixStory = () => {
   );
 };
 
+// Add a new story for custom label
+const CustomLabelStory = () => {
+  return (
+    <FormWrapper>
+      {(control) => (
+        <FormInput
+          name="input"
+          label={
+            <div className="inline-flex items-center gap-1">
+              <span>Custom Label</span>
+              <MyIconfy icon="lucide:star" size="sm" />
+            </div>
+          }
+          control={control}
+          placeholder="Enter input with custom label"
+          required
+        />
+      )}
+    </FormWrapper>
+  );
+};
+
+// Add a story for horizontal direction and gap control
+const HorizontalDirectionStory = () => {
+  return (
+    <FormWrapper>
+      {(control) => (
+        <div className="max-w-[450px] space-y-4">
+          <div className="text-sm text-muted-foreground mb-2">
+            Default horizontal with gap-2 (default)
+          </div>
+          <FormInput
+            name="input"
+            label="Username"
+            control={control}
+            placeholder="Enter your username"
+            direction="horizontal"
+            required
+          />
+
+          <div className="text-sm text-muted-foreground mb-2">
+            Horizontal with custom gap-10
+          </div>
+          <FormInput
+            name="input"
+            label="Email"
+            control={control}
+            placeholder="Enter your email"
+            direction="horizontal"
+            containerProps={{ className: "gap-10" }}
+            required
+          />
+
+          <div className="text-sm text-muted-foreground mb-2">
+            Horizontal with max-width and custom container background
+          </div>
+          <div className="max-w-[250px]">
+            <FormInput
+              name="input"
+              label="Address"
+              control={control}
+              placeholder="Enter your address"
+              direction="horizontal"
+              containerProps={{ className: "gap-4 bg-neutral-100 p-2" }}
+              required
+            />
+          </div>
+        </div>
+      )}
+    </FormWrapper>
+  );
+};
+
 // Story objects using the proper React components
 export const Default: Story = {
   args: {
     name: "input",
     label: "Username",
     placeholder: "Enter your username",
+    required: true,
     control: mockControl,
   } as FormInputProps,
   render: () => <DefaultStory />,
@@ -261,6 +339,7 @@ export const Default: Story = {
   label="Username"
   control={form.control}
   placeholder="Enter your username"
+  required
 />`,
         language: "tsx",
         type: "code",
@@ -275,6 +354,7 @@ export const Disabled: Story = {
     label: "Disabled Input",
     placeholder: "You can't edit this",
     disabled: true,
+    required: true,
     control: mockControl,
   } as FormInputProps,
   render: () => <DisabledStory />,
@@ -289,6 +369,7 @@ export const Disabled: Story = {
   control={form.control}
   placeholder="You can't edit this"
   disabled
+  required
 />`,
         language: "tsx",
         type: "code",
@@ -302,6 +383,7 @@ export const WithPrefix: Story = {
     name: "input",
     label: "Search",
     placeholder: "Search...",
+    required: true,
     control: mockControl,
   } as FormInputProps,
   render: () => <WithPrefixStory />,
@@ -316,6 +398,7 @@ export const WithPrefix: Story = {
   control={form.control}
   placeholder="Search..."
   prefix={<MyIconfy icon={commonIcon.searchIcon} size="sm" />}
+  required
 />`,
         language: "tsx",
         type: "code",
@@ -331,6 +414,7 @@ export const NumberWithSuffix: Story = {
     label: "Amount",
     placeholder: "0.00",
     type: "number",
+    required: true,
     control: mockControl,
   } as FormInputProps,
   render: () => <NumberWithSuffixStory />,
@@ -347,7 +431,98 @@ export const NumberWithSuffix: Story = {
   placeholder="0.00"
   type="number"
   suffix={<span>USD</span>}
+  required
 />`,
+        language: "tsx",
+        type: "code",
+      },
+    },
+  },
+};
+
+// Add the CustomLabel story
+export const CustomLabel: Story = {
+  args: {
+    name: "input",
+    label: "Custom Label with Icon",
+    placeholder: "Enter input with custom label",
+    required: true,
+    control: mockControl,
+  } as FormInputProps,
+  render: () => <CustomLabelStory />,
+  parameters: {
+    docs: {
+      story: { inline: true },
+      source: {
+        code: `
+<FormInput
+  name="input"
+  label={
+    <div className="inline-flex items-center gap-1">
+      <span>Custom Label</span>
+      <MyIconfy icon="lucide:star" size="sm" />
+    </div>
+  }
+  control={control}
+  placeholder="Enter input with custom label"
+  required
+/>`,
+        language: "tsx",
+        type: "code",
+      },
+    },
+  },
+};
+
+// Add a story for horizontal direction and gap control
+export const HorizontalDirection: Story = {
+  args: {
+    name: "input",
+    label: "Horizontal Layout",
+    placeholder: "Horizontal input example",
+    direction: "horizontal",
+    required: true,
+    control: mockControl,
+  } as FormInputProps,
+  render: () => <HorizontalDirectionStory />,
+  parameters: {
+    docs: {
+      story: { inline: true },
+      source: {
+        code: `
+{/* Default horizontal layout with gap-2 */}
+<FormInput
+  name="input"
+  label="Username"
+  control={form.control}
+  placeholder="Enter your username"
+  direction="horizontal"
+  required
+/>
+
+{/* Customize gap with containerProps */}
+<FormInput
+  name="input"
+  label="Email"
+  control={form.control}
+  placeholder="Enter your email"
+  direction="horizontal"
+  containerProps={{ className: "gap-10" }}
+  required
+/>
+
+{/* Control max-width and alignment by wrapping in a div */}
+<div className="max-w-[350px]">
+  <FormInput
+    name="input"
+    label="Address"
+    control={form.control}
+    placeholder="Enter your address"
+    direction="horizontal"
+    containerProps={{ className: "gap-4 items-start" }}
+    required
+  />
+</div>`,
         language: "tsx",
         type: "code",
       },

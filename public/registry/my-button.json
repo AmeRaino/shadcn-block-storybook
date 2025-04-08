@@ -4,6 +4,10 @@
   "registryDependencies": [
     "button"
   ],
+  "dependencies": [
+    "iconify-icon",
+    "@iconify-icon/react"
+  ],
   "files": [
     {
       "type": "registry:block",

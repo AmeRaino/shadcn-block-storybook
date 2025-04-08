@@ -9,7 +9,9 @@
   ],
   "dependencies": [
     "@tanstack/react-virtual",
-    "@tanstack/react-query"
+    "@tanstack/react-query",
+    "iconify-icon",
+    "@iconify-icon/react"
   ],
   "files": [
     {

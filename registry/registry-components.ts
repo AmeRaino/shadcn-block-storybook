@@ -5,6 +5,7 @@ export const ui: Registry = [
     name: "my-button",
     type: "registry:block",
     registryDependencies: ["button"],
+    dependencies: ["iconify-icon", "@iconify-icon/react"],
     files: [
       "block/base-component/my-button.tsx",
       "block/base-component/my-icon.tsx",
@@ -33,6 +34,7 @@ export const ui: Registry = [
     name: "my-combobox",
     type: "registry:block",
     registryDependencies: ["button", "command", "popover", "badge"],
+    dependencies: ["iconify-icon", "@iconify-icon/react"],
     files: [
       "block/base-component/my-combobox.tsx",
       "block/base-component/my-icon.tsx",
@@ -55,7 +57,12 @@ export const ui: Registry = [
     name: "my-virtual-combobox-async",
     type: "registry:block",
     registryDependencies: ["button", "command", "popover", "badge"],
-    dependencies: ["@tanstack/react-virtual", "@tanstack/react-query"],
+    dependencies: [
+      "@tanstack/react-virtual",
+      "@tanstack/react-query",
+      "iconify-icon",
+      "@iconify-icon/react",
+    ],
     files: [
       "block/base-component/my-virtual-combobox-async.tsx",
       "block/base-component/my-icon.tsx",
@@ -89,6 +96,7 @@ export const ui: Registry = [
     name: "form-combobox",
     type: "registry:block",
     registryDependencies: ["form", "button", "command", "popover"],
+    dependencies: ["iconify-icon", "@iconify-icon/react"],
     files: [
       "block/form/form-combobox.tsx",
       "block/base-component/my-combobox.tsx",
@@ -100,6 +108,7 @@ export const ui: Registry = [
     name: "form-datepicker",
     type: "registry:block",
     registryDependencies: ["form", "button", "calendar", "popover"],
+    dependencies: ["iconify-icon", "@iconify-icon/react"],
     files: [
       "block/form/form-datepicker.tsx",
       "block/base-component/my-icon.tsx",
@@ -110,6 +119,7 @@ export const ui: Registry = [
     name: "form-date-range-picker",
     type: "registry:block",
     registryDependencies: ["form", "button", "calendar", "popover"],
+    dependencies: ["iconify-icon", "@iconify-icon/react"],
     files: [
       "block/form/form-date-range-picker.tsx",
       "block/base-component/my-icon.tsx",
@@ -135,10 +145,24 @@ export const ui: Registry = [
     files: ["block/form/form-switch.tsx"],
   },
   {
+    name: "form-float-label-input",
+    type: "registry:block",
+    registryDependencies: ["form", "input"],
+    files: [
+      "block/form/form-float-label-input.tsx",
+      "block/base-component/my-input.tsx",
+    ],
+  },
+  {
     name: "form-virtual-combobox-async",
     type: "registry:block",
     registryDependencies: ["form", "button", "command", "popover"],
-    dependencies: ["@tanstack/react-virtual", "@tanstack/react-query"],
+    dependencies: [
+      "@tanstack/react-virtual",
+      "@tanstack/react-query",
+      "iconify-icon",
+      "@iconify-icon/react",
+    ],
     files: [
       "block/form/form-virtual-combobox-async.tsx",
       "block/base-component/my-virtual-combobox-async.tsx",

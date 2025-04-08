@@ -26,7 +26,11 @@ export default function AsyncMultiSelectPage() {
               Select Products
             </label>
 
-            <MyFloatingLabelInput label="Select Products" />
+            <MyFloatingLabelInput
+              float
+              label="Select Products"
+              placeholder="..."
+            />
 
             <MyVirtualComboboxAsync
               select={{ value: "id", label: "title" }}

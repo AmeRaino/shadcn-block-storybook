@@ -8,7 +8,7 @@ import { useId } from "react";
 type TProps = {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
-  containerProps?: React.ComponentProps<"div">;
+  wrapperContainerProps?: React.ComponentProps<"div">;
 } & Omit<React.ComponentProps<typeof Input>, "prefix" | "ref">;
 
 function MyInput({
@@ -16,14 +16,17 @@ function MyInput({
   suffix,
   prefix,
   children,
-  containerProps,
+  wrapperContainerProps,
   ...props
 }: TProps) {
-  const { className: containerClassName, ...restContainerProps } =
-    containerProps || {};
+  const { className: wrapperContainerClassName, ...restWrapperContainerProps } =
+    wrapperContainerProps || {};
 
   return (
-    <div className={cn("relative", containerClassName)} {...restContainerProps}>
+    <div
+      className={cn("relative flex-1", wrapperContainerClassName)}
+      {...restWrapperContainerProps}
+    >
       <Input
         className={cn(
           "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aria-invalid:text-destructive aria-invalid:bg-[#FEF2F2]",

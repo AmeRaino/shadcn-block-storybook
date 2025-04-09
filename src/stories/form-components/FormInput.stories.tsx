@@ -111,7 +111,7 @@ const FormWrapper = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="w-[350px] space-y-4 p-4 border rounded-md bg-white"
+        className="w-[400px] space-y-4 p-4 border rounded-md bg-white"
       >
         {children(form.control)}
         <MyButton
@@ -273,45 +273,60 @@ const HorizontalDirectionStory = () => {
   return (
     <FormWrapper>
       {(control) => (
-        <div className="max-w-[450px] space-y-4">
-          <div className="text-sm text-muted-foreground mb-2">
-            Default horizontal with gap-2 (default)
-          </div>
-          <FormInput
-            name="input"
-            label="Username"
-            control={control}
-            placeholder="Enter your username"
-            direction="horizontal"
-            required
-          />
-
-          <div className="text-sm text-muted-foreground mb-2">
-            Horizontal with custom gap-10
-          </div>
-          <FormInput
-            name="input"
-            label="Email"
-            control={control}
-            placeholder="Enter your email"
-            direction="horizontal"
-            containerProps={{ className: "gap-10" }}
-            required
-          />
-
-          <div className="text-sm text-muted-foreground mb-2">
-            Horizontal with max-width and custom container background
-          </div>
-          <div className="max-w-[250px]">
+        <div className="max-w-[800px] space-y-8">
+          <div>
+            <div className="text-sm text-muted-foreground mb-2">
+              Default horizontal with gap-x-2 (default)
+            </div>
             <FormInput
               name="input"
-              label="Address"
+              label="Username"
               control={control}
-              placeholder="Enter your address"
+              placeholder="Enter your username"
               direction="horizontal"
-              containerProps={{ className: "gap-4 bg-neutral-100 p-2" }}
               required
             />
+          </div>
+
+          <div>
+            <div className="text-sm text-muted-foreground mb-2">
+              Horizontal with custom gap-x-10
+            </div>
+            <FormInput
+              name="input"
+              label="Email"
+              control={control}
+              placeholder="Enter your email"
+              direction="horizontal"
+              containerProps={{ className: "gap-x-10" }}
+              required
+            />
+          </div>
+
+          <div>
+            <div className="text-sm text-muted-foreground mb-2">
+              Grid layout with multiple columns (notice items-start is required)
+            </div>
+            <div className="grid grid-cols-2 gap-4 items-start">
+              <FormInput
+                name="input"
+                label="Col 1"
+                control={control}
+                placeholder="Enter Col 1"
+                direction="horizontal"
+                containerProps={{ className: "gap-x-4" }}
+                required
+              />
+              <FormInput
+                name="input"
+                label="Col 2"
+                control={control}
+                placeholder="Enter Col 2"
+                direction="horizontal"
+                containerProps={{ className: "gap-x-4" }}
+                required
+              />
+            </div>
           </div>
         </div>
       )}
@@ -490,7 +505,7 @@ export const HorizontalDirection: Story = {
       story: { inline: true },
       source: {
         code: `
-{/* Default horizontal layout with gap-2 */}
+{/* Default horizontal layout with gap-x-2 */}
 <FormInput
   name="input"
   label="Username"
@@ -507,19 +522,28 @@ export const HorizontalDirection: Story = {
   control={form.control}
   placeholder="Enter your email"
   direction="horizontal"
-  containerProps={{ className: "gap-10" }}
+  containerProps={{ className: "gap-x-10" }}
   required
 />
 
-{/* Control max-width and alignment by wrapping in a div */}
-<div className="max-w-[350px]">
+{/* Grid layout with multiple columns - items-start is required */}
+<div className="grid grid-cols-2 gap-4 items-start">
   <FormInput
     name="input"
-    label="Address"
-    control={form.control}
-    placeholder="Enter your address"
+    label="Col 1"
+    control={control}
+    placeholder="Enter Col 1"
     direction="horizontal"
-    containerProps={{ className: "gap-4 items-start" }}
+    containerProps={{ className: "gap-x-4" }}
+    required
+  />
+  <FormInput
+    name="input"
+    label="Col 2"
+    control={control}
+    placeholder="Enter Col 2"
+    direction="horizontal"
+    containerProps={{ className: "gap-x-4" }}
     required
   />
 </div>`,

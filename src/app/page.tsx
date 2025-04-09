@@ -90,15 +90,26 @@ export default function Home() {
                     placeholder="Enter input"
                   />
 
-                  <FormInput
-                    direction="horizontal"
-                    containerProps={{ className: "gap-10" }}
-                    required
-                    label="Input"
-                    control={form.control}
-                    name="input"
-                    placeholder="Enter input"
-                  />
+                  <div className="grid grid-cols-2 gap-4 items-start">
+                    <FormInput
+                      direction="horizontal"
+                      containerProps={{ className: "gap-x-10" }}
+                      required
+                      label="Input"
+                      control={form.control}
+                      name="input"
+                      placeholder="Enter input"
+                    />
+                    <FormInput
+                      direction="horizontal"
+                      containerProps={{ className: "gap-x-10" }}
+                      required
+                      label="Input"
+                      control={form.control}
+                      name="select"
+                      placeholder="Enter input"
+                    />
+                  </div>
 
                   <FormDateRangePicker
                     required

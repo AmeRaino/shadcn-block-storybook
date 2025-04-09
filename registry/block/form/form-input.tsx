@@ -52,7 +52,8 @@ export const FormInput = <
       render={({ field: { onChange, ...fieldProps } }) => (
         <FormItem
           className={cn(
-            direction === "horizontal" && "flex gap-2",
+            direction === "horizontal" &&
+              "grid grid-cols-[max-content_1fr] gap-2",
             containerClassName
           )}
           {...restContainerProps}
@@ -67,7 +68,6 @@ export const FormInput = <
             <MyInput
               {...fieldProps}
               {...props}
-              containerProps={{ className: "flex-1" }}
               onChange={(e) => {
                 if (typeof onChangeCallBack !== "function") {
                   onChange(e);
@@ -79,7 +79,9 @@ export const FormInput = <
               }}
             />
           </FormControl>
-          <FormMessage />
+          <FormMessage
+            className={cn(direction === "horizontal" && "col-start-2")}
+          />
         </FormItem>
       )}
     />
